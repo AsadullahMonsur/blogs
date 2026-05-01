@@ -1,1 +1,1 @@
-Available All Links under Blog 
+Available All Links under Blogs 
