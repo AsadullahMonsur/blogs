@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>REST vs SOAP</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f5f5f5;
+        padding: 20px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #ffffff;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      th,
+      td {
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        text-align: left;
+      }
+
+      th {
+        background-color: #333;
+        color: #fff;
+      }
+
+      tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+
+      .rest {
+        color: #2e7d32;
+        font-weight: bold;
+      }
+
+      .soap {
+        color: #c62828;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>REST API vs SOAP</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th class="rest">REST</th>
+          <th class="soap">SOAP</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Full Form</td>
+          <td>Representational State Transfer</td>
+          <td>Simple Object Access Protocol</td>
+        </tr>
+        <tr>
+          <td>Type</td>
+          <td>Architectural style</td>
+          <td>Protocol</td>
+        </tr>
+        <tr>
+          <td>Data Format</td>
+          <td>JSON, XML, HTML, Plain Text</td>
+          <td>Only XML</td>
+        </tr>
+        <tr>
+          <td>Performance</td>
+          <td>Fast & lightweight</td>
+          <td>Slower due to XML processing</td>
+        </tr>
+        <tr>
+          <td>State</td>
+          <td>Stateless</td>
+          <td>Can be stateful or stateless</td>
+        </tr>
+        <tr>
+          <td>Transport</td>
+          <td>HTTP mainly</td>
+          <td>HTTP, SMTP, TCP, etc.</td>
+        </tr>
+        <tr>
+          <td>Security</td>
+          <td>Uses HTTPS, OAuth</td>
+          <td>Built-in WS-Security</td>
+        </tr>
+        <tr>
+          <td>Flexibility</td>
+          <td>More flexible</td>
+          <td>Strict standards</td>
+        </tr>
+        <tr>
+          <td>Error Handling</td>
+          <td>HTTP status codes</td>
+          <td>SOAP fault structure</td>
+        </tr>
+        <tr>
+          <td>Use Case</td>
+          <td>Web & mobile apps</td>
+          <td>Enterprise systems</td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
