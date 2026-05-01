@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Comparison</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f4f6f8;
+        padding: 20px;
+      }
+      .table-container {
+        overflow-x: auto;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 800px;
+      }
+      th,
+      td {
+        padding: 14px 16px;
+        text-align: left;
+      }
+      th {
+        background: #2c3e50;
+        color: #fff;
+        font-weight: 600;
+      }
+      tr:nth-child(even) {
+        background: #f2f2f2;
+      }
+      tr:hover {
+        background: #eaf3ff;
+      }
+      td:first-child {
+        font-weight: bold;
+        background: #fafafa;
+      }
+      caption {
+        caption-side: top;
+        font-size: 1.5em;
+        margin: 15px 0;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="table-container">
+      <table>
+        <caption>
+          REST vs GraphQL vs gRPC
+        </caption>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>REST</th>
+            <th>GraphQL</th>
+            <th>gRPC</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Protocol</td>
+            <td>HTTP/1.1</td>
+            <td>HTTP/1.1 or HTTP/2</td>
+            <td>HTTP/2</td>
+          </tr>
+          <tr>
+            <td>Data Format</td>
+            <td>JSON (commonly)</td>
+            <td>JSON</td>
+            <td>Protocol Buffers (binary)</td>
+          </tr>
+          <tr>
+            <td>Flexibility</td>
+            <td>Fixed endpoints</td>
+            <td>Flexible queries</td>
+            <td>Strict contracts</td>
+          </tr>
+          <tr>
+            <td>Performance</td>
+            <td>Moderate</td>
+            <td>Efficient (reduces over-fetching)</td>
+            <td>High (binary + HTTP/2)</td>
+          </tr>
+          <tr>
+            <td>Over/Under Fetching</td>
+            <td>Common issue</td>
+            <td>Minimal</td>
+            <td>Minimal</td>
+          </tr>
+          <tr>
+            <td>Streaming</td>
+            <td>Limited</td>
+            <td>Limited (subscriptions)</td>
+            <td>Built-in streaming</td>
+          </tr>
+          <tr>
+            <td>Ease of Use</td>
+            <td>Easy</td>
+            <td>Moderate learning curve</td>
+            <td>Complex setup</td>
+          </tr>
+          <tr>
+            <td>Tooling</td>
+            <td>Very mature</td>
+            <td>Growing ecosystem</td>
+            <td>Strong for microservices</td>
+          </tr>
+          <tr>
+            <td>Best For</td>
+            <td>Public APIs, CRUD apps</td>
+            <td>Frontend-heavy apps</td>
+            <td>Internal microservices</td>
+          </tr>
+          <tr>
+            <td>Typing</td>
+            <td>Loosely typed</td>
+            <td>Strong schema</td>
+            <td>Strongly typed (Proto)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

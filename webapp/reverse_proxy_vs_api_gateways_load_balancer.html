@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Reverse Proxy vs API Gateway vs Load Balancer</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background-color: #f7f9fc;
+        color: #333;
+      }
+      h1 {
+        text-align: center;
+        color: #2c3e50;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background: #fff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: left;
+        vertical-align: top;
+      }
+      th {
+        background-color: #2c3e50;
+        color: white;
+      }
+      tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+      .note {
+        margin-top: 20px;
+        padding: 10px;
+        background: #e8f4ff;
+        border-left: 4px solid #3498db;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Reverse Proxy vs API Gateway vs Load Balancer</h1>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Feature / Aspect</th>
+          <th>Reverse Proxy</th>
+          <th>API Gateway</th>
+          <th>Load Balancer</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Primary Purpose</td>
+          <td>Forward client requests to backend servers</td>
+          <td>Manage, secure, and orchestrate APIs</td>
+          <td>Distribute traffic across multiple servers</td>
+        </tr>
+        <tr>
+          <td>Main Use Case</td>
+          <td>Web servers, caching, SSL termination</td>
+          <td>Microservices & API management</td>
+          <td>High availability & scalability</td>
+        </tr>
+        <tr>
+          <td>Traffic Handling</td>
+          <td>Routes requests based on rules (URL, headers)</td>
+          <td>Routes + transforms + enforces policies</td>
+          <td>Distributes traffic evenly or intelligently</td>
+        </tr>
+        <tr>
+          <td>API Awareness</td>
+          <td>No API-specific logic</td>
+          <td>Deep API awareness</td>
+          <td>No API awareness</td>
+        </tr>
+        <tr>
+          <td>Authentication</td>
+          <td>Basic (SSL, headers)</td>
+          <td>Advanced (OAuth, JWT, rate limiting)</td>
+          <td>Typically none</td>
+        </tr>
+        <tr>
+          <td>Rate Limiting</td>
+          <td>Limited</td>
+          <td>Built-in</td>
+          <td>Not supported</td>
+        </tr>
+        <tr>
+          <td>Caching</td>
+          <td>Often supported</td>
+          <td>Sometimes</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>Protocol Support</td>
+          <td>HTTP, HTTPS</td>
+          <td>HTTP, HTTPS, WebSocket, gRPC</td>
+          <td>TCP, UDP, HTTP, HTTPS</td>
+        </tr>
+        <tr>
+          <td>Load Distribution</td>
+          <td>Basic (can do some balancing)</td>
+          <td>Limited</td>
+          <td>Core feature</td>
+        </tr>
+        <tr>
+          <td>Request Transformation</td>
+          <td>Minimal</td>
+          <td>Modify headers, payloads</td>
+          <td>None</td>
+        </tr>
+        <tr>
+          <td>Security Features</td>
+          <td>SSL termination, basic filtering</td>
+          <td>Advanced security, throttling, API keys</td>
+          <td>Basic (network-level)</td>
+        </tr>
+        <tr>
+          <td>Examples</td>
+          <td>Nginx, Apache HTTP Server</td>
+          <td>AWS API Gateway, Kong, Apigee</td>
+          <td>AWS ELB, HAProxy, F5</td>
+        </tr>
+        <tr>
+          <td>Complexity</td>
+          <td>Medium</td>
+          <td>High</td>
+          <td>Low to Medium</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="note">
+      <strong>Quick Memory Tip:</strong><br />
+      Reverse Proxy → Smart middleman for web traffic<br />
+      API Gateway → Control center for APIs<br />
+      Load Balancer → Traffic distributor
+    </div>
+  </body>
+</html>
