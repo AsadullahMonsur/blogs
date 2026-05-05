@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Unwinder API Table</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #0b1a2b; /* cobalt dark */
+            color: #e6f0ff;
+        }
+
+        h2 {
+            text-align: center;
+            color: #7db8ff;
+            margin-bottom: 20px;
+        }
+
+.link-box {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #102a43;
+            border: 1px solid #1f3b57;
+            border-radius: 8px;
+        }
+
+        .link-box a {
+            color: #7db8ff;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .link-box a:hover {
+            text-decoration: underline;
+            color: #9ad1ff;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #102a43;
+            box-shadow: 0 0 12px rgba(0,0,0,0.4);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            border: 1px solid #1f3b57;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #1f4b99; /* cobalt blue */
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #132c46;
+        }
+
+        tr:hover {
+            background-color: #1a3d63;
+        }
+
+        code {
+            background: #0a2238;
+            color: #9ad1ff;
+            padding: 3px 6px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Unwinder API Endpoints</h2>
+<h4>Server Url: http://160.250.222.211:8585/</h4>
+
+<div class="link-box">
+    🔗 Live API Demo: 
+    <a href="http://160.250.222.211:8585//unwinder/api_info" target="_blank">
+        Open API Info in New Tab
+    </a>
+</div>
+
+<table>
+    <tr>
+        <th>Action</th>
+        <th>HTTP Method</th>
+        <th>Endpoint</th>
+        <th>Description</th>
+    </tr>
+
+    <tr>
+        <td>Get API Info</td>
+        <td>GET</td>
+        <td><code>/unwinder/api_info</code></td>
+        <td>Retrieve API information</td>
+    </tr>
+
+    <tr>
+        <td>Insert Sample Products</td>
+        <td>POST</td>
+        <td><code>/unwinder/insert_db</code></td>
+        <td>Insert sample products into database</td>
+    </tr>
+
+    <tr>
+        <td>Remove All Products</td>
+        <td>DELETE</td>
+        <td><code>/unwinder/remove_db</code></td>
+        <td>Remove all products from database</td>
+    </tr>
+
+    <tr>
+        <td>Create Product</td>
+        <td>POST</td>
+        <td><code>/unwinder/create</code></td>
+        <td>@RequestBody Product product</td>
+    </tr>
+
+    <tr>
+        <td>Read Product</td>
+        <td>GET</td>
+        <td><code>/unwinder/read/{product_id}</code></td>
+        <td>Get product by ID</td>
+    </tr>
+
+    <tr>
+        <td>Update Product</td>
+        <td>PUT</td>
+        <td><code>/unwinder/update</code></td>
+        <td>@RequestBody Product product</td>
+    </tr>
+
+    <tr>
+        <td>Delete Product</td>
+        <td>DELETE</td>
+        <td><code>/unwinder/delete/{product_id}</code></td>
+        <td>Delete product by ID</td>
+    </tr>
+
+    <tr>
+        <td>Get N Items (Paged)</td>
+        <td>GET</td>
+        <td><code>/unwinder/n/paged</code></td>
+        <td>Get first page with N items</td>
+    </tr>
+
+    <tr>
+        <td>Get Page K with N Items</td>
+        <td>GET</td>
+        <td><code>/unwinder/n/paged/k</code></td>
+        <td>Get page K with N items per page</td>
+    </tr>
+
+</table>
+
+</body>
+</html>
