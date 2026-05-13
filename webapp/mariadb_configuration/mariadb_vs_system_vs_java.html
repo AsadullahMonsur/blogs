@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MariaDB + Ubuntu + Java Compatibility Matrix</title>
+
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            margin: 40px;
+            background: #f5f7fb;
+            color: #222;
+        }
+
+        h1 {
+            text-align: center;
+            color: #0f4c81;
+            margin-bottom: 10px;
+        }
+
+        p.subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        th, td {
+            border: 1px solid #d8dee4;
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background: #0f4c81;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        .recommended {
+            background: #d4edda;
+            color: #155724;
+            font-weight: bold;
+        }
+
+        .stable {
+            background: #fff3cd;
+            color: #856404;
+            font-weight: bold;
+        }
+
+        .legacy {
+            background: #f8d7da;
+            color: #721c24;
+            font-weight: bold;
+        }
+
+        .notes {
+            margin-top: 30px;
+            background: white;
+            padding: 25px;
+            border-left: 5px solid #0f4c81;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        code {
+            background: #eef2ff;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+        }
+
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #777;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>MariaDB + Ubuntu + Java Compatibility Matrix</h1>
+
+    <p class="subtitle">
+        Verified compatibility alignment for Ubuntu LTS releases, OpenJDK versions,
+        MariaDB server versions, and MariaDB Connector/J.
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Ubuntu LTS</th>
+                <th>Default Java (default-jdk)</th>
+                <th>Supported Java Versions</th>
+                <th>Recommended MariaDB</th>
+                <th>Connector/J Version</th>
+                <th>Compatibility Status</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr>
+                <td>Ubuntu 18.04 LTS</td>
+                <td>OpenJDK 11</td>
+                <td>Java 8, 11, 17</td>
+                <td>MariaDB 10.3 / 10.5</td>
+                <td>Connector/J 2.5.x</td>
+                <td class="legacy">Legacy / EOL Near</td>
+            </tr>
+
+            <tr>
+                <td>Ubuntu 20.04 LTS</td>
+                <td>OpenJDK 11</td>
+                <td>Java 8, 11, 17, 21</td>
+                <td>MariaDB 10.5 / 10.6</td>
+                <td>Connector/J 2.7.x</td>
+                <td class="stable">Stable</td>
+            </tr>
+
+            <tr>
+                <td>Ubuntu 22.04 LTS</td>
+                <td>OpenJDK 11</td>
+                <td>Java 8, 11, 17, 21</td>
+                <td>MariaDB 10.6 / 10.11</td>
+                <td>Connector/J 2.7.x / 3.x</td>
+                <td class="recommended">Recommended</td>
+            </tr>
+
+            <tr>
+                <td>Ubuntu 24.04 LTS</td>
+                <td>OpenJDK 21</td>
+                <td>Java 8, 11, 17, 21, 25</td>
+                <td>MariaDB 11.x</td>
+                <td>Connector/J 3.3.x / 3.5.x</td>
+                <td class="recommended">Best Modern Stack</td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <div class="notes">
+
+        <h2>Version Validation Notes</h2>
+
+        <ul>
+            <li>
+                Ubuntu 22.04 default JDK remains
+                <code>OpenJDK 11</code>.
+            </li>
+
+            <li>
+                Ubuntu 24.04 default JDK is
+                <code>OpenJDK 21</code>.
+            </li>
+
+            <li>
+                MariaDB Connector/J 3.x supports modern Java LTS versions:
+                <code>Java 8 → Java 25</code>.
+            </li>
+
+            <li>
+                MariaDB 10.11 is the current long-term stable branch for enterprise deployments.
+            </li>
+
+            <li>
+                MariaDB 11.x is recommended for new systems using Ubuntu 24.04 and Java 21+.
+            </li>
+
+            <li>
+                Java 21 is currently the preferred production LTS runtime for modern deployments.
+            </li>
+
+        </ul>
+
+        <h2>Recommended Production Stacks</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Use Case</th>
+                    <th>Recommended Stack</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>Legacy Enterprise</td>
+                    <td>Ubuntu 20.04 + Java 11 + MariaDB 10.5</td>
+                </tr>
+
+                <tr>
+                    <td>Current Stable Enterprise</td>
+                    <td>Ubuntu 22.04 + Java 17 + MariaDB 10.11</td>
+                </tr>
+
+                <tr>
+                    <td>Modern Cloud / Kubernetes</td>
+                    <td>Ubuntu 24.04 + Java 21 + MariaDB 11.x</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <footer>
+        Compatibility data verified against Ubuntu OpenJDK package availability and MariaDB Connector/J support matrix.
+    </footer>
+
+</body>
+</html>

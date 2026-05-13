@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MariaDB Compilation Pipeline</title>
+
+<style>
+body{
+    margin:0;
+    padding:40px;
+    background:#0b1020;
+    color:#e2e8f0;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+h1{
+    text-align:center;
+    color:#ffffff;
+    margin-bottom:10px;
+}
+
+.subtitle{
+    text-align:center;
+    color:#94a3b8;
+    margin-bottom:50px;
+}
+
+.pipeline{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+.node{
+    background:#111827;
+    border:2px solid #334155;
+    border-radius:14px;
+    width:340px;
+    padding:20px;
+    text-align:center;
+    box-shadow:0 10px 20px rgba(0,0,0,0.4);
+}
+
+.node h2{
+    margin-top:0;
+    color:#38bdf8;
+}
+
+.arrow{
+    width:4px;
+    height:50px;
+    background:#38bdf8;
+    position:relative;
+}
+
+.arrow::after{
+    content:'';
+    position:absolute;
+    bottom:-12px;
+    left:-8px;
+    border-left:10px solid transparent;
+    border-right:10px solid transparent;
+    border-top:14px solid #38bdf8;
+}
+
+.branch-container{
+    display:flex;
+    justify-content:center;
+    gap:25px;
+    margin-top:60px;
+    flex-wrap:wrap;
+    width:100%;
+}
+
+.branch{
+    background:#0f172a;
+    border:2px solid #475569;
+    border-radius:14px;
+    width:260px;
+    padding:20px;
+    position:relative;
+}
+
+.branch::before{
+    content:'';
+    position:absolute;
+    top:-45px;
+    left:50%;
+    width:4px;
+    height:45px;
+    background:#38bdf8;
+    transform:translateX(-50%);
+}
+
+.branch h3{
+    color:#22c55e;
+    text-align:center;
+}
+
+.branch ul{
+    line-height:1.7;
+    padding-left:20px;
+}
+
+.code{
+    color:#facc15;
+    font-family:Consolas,monospace;
+}
+
+.footer{
+    margin-top:50px;
+    text-align:center;
+    color:#64748b;
+}
+</style>
+</head>
+
+<body>
+
+<h1>MariaDB Source → Platform Binary</h1>
+
+<div class="subtitle">
+Visual representation of how MariaDB source code becomes platform-specific binaries.
+</div>
+
+<div class="pipeline">
+
+    <div class="node">
+        <h2>1. MariaDB Source Code</h2>
+        <p>
+            Core database engine written mainly in
+            <span class="code">C/C++</span>
+            including parser, optimizer, storage engines,
+            replication, plugins, and networking.
+        </p>
+    </div>
+
+    <div class="arrow"></div>
+
+    <div class="node">
+        <h2>2. Build System</h2>
+        <p>
+            <span class="code">CMake</span>
+            configures the project, detects compiler,
+            architecture, operating system,
+            and required libraries.
+        </p>
+    </div>
+
+    <div class="arrow"></div>
+
+    <div class="node">
+        <h2>3. Compilation</h2>
+        <p>
+            Compiler converts source files into object files
+            using architecture-specific instruction generation.
+        </p>
+    </div>
+
+    <div class="arrow"></div>
+
+    <div class="node">
+        <h2>4. Linking</h2>
+        <p>
+            Object files are linked into executable binaries,
+            shared libraries, and platform runtime packages.
+        </p>
+    </div>
+
+    <div class="arrow"></div>
+
+    <div class="node">
+        <h2>5. Platform-Specific Outputs</h2>
+        <p>
+            Different CPU architectures produce different machine code binaries.
+        </p>
+    </div>
+
+</div>
+
+<div class="branch-container">
+
+    <div class="branch">
+        <h3>x86_64 / AMD64</h3>
+        <ul>
+            <li>Intel and AMD processors</li>
+            <li>64-bit x86 instructions</li>
+            <li>ELF binaries on Linux</li>
+            <li>High-performance servers</li>
+        </ul>
+    </div>
+
+    <div class="branch">
+        <h3>ARM64 / AArch64</h3>
+        <ul>
+            <li>Apple Silicon</li>
+            <li>AWS Graviton</li>
+            <li>ARM server infrastructure</li>
+            <li>Different opcode generation</li>
+        </ul>
+    </div>
+
+    <div class="branch">
+        <h3>ARM32</h3>
+        <ul>
+            <li>Embedded systems</li>
+            <li>32-bit ARM instruction set</li>
+            <li>Low-power deployments</li>
+            <li>Smaller address space</li>
+        </ul>
+    </div>
+
+    <div class="branch">
+        <h3>Windows PE</h3>
+        <ul>
+            <li>Built using MSVC or MinGW</li>
+            <li>PE/COFF executable format</li>
+            <li>DLL runtime linkage</li>
+            <li>Windows service support</li>
+        </ul>
+    </div>
+
+</div>
+
+<div class="footer">
+MariaDB Compilation & Binary Generation Flow
+</div>
+
+</body>
+</html>
