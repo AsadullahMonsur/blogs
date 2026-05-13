@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Server Commands Guide</title>
+
+<style>
+:root {
+  --bg: #0f172a;
+  --card: #111827;
+  --text: #e5e7eb;
+  --accent: #38bdf8;
+  --code-bg: #1f2937;
+  --border: #334155;
+}
+
+.light {
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --text: #0f172a;
+  --accent: #2563eb;
+  --code-bg: #f1f5f9;
+  --border: #cbd5e1;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  transition: 0.3s ease;
+}
+
+.container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+h1, h2 {
+  color: var(--accent);
+}
+
+code {
+  background: var(--code-bg);
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
+pre {
+  background: var(--code-bg);
+  padding: 14px;
+  border-radius: 10px;
+  overflow-x: auto;
+  position: relative;
+  border: 1px solid var(--border);
+}
+
+.copy-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.copy-btn:active {
+  transform: scale(0.95);
+}
+
+.toggle {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<button class="toggle" onclick="toggleTheme()">Toggle Theme</button>
+
+<div class="container">
+
+  <div class="card">
+    <h1>Server System Architecture</h1>
+    <p>To check server system architecture:</p>
+
+    <pre><button class="copy-btn" onclick="copyCode(this)">Copy</button><code>uname -m</code></pre>
+  </div>
+
+  <div class="card">
+    <h2>Enable a service of a user auto start at (boot up)</h2>
+    <p>For user <b>potato</b>:</p>
+
+    <pre><button class="copy-btn" onclick="copyCode(this)">Copy</button><code>sudo loginctl enable-linger potato</code></pre>
+  </div>
+
+  <div class="card">
+    <h2>Server Details</h2>
+    <p>
+      <b>Username:</b> potato<br>
+      <b>Server IP:</b> 160.250.222.211<br>
+      <b>Destination:</b> /home/potato/
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>Copy File to Server (SCP)</h2>
+    <p>Copy <code>mango.png</code> to server in folder 'data':</p>
+
+    <pre><button class="copy-btn" onclick="copyCode(this)">Copy</button><code>scp mango.png potato@160.250.222.211:/home/potato/data</code></pre>
+  </div>
+
+  <div class="card">
+    <h2>Copy Folder to Server (SCP)</h2>
+    <p>Copy folder <code>data</code> to server:</p>
+
+    <pre><button class="copy-btn" onclick="copyCode(this)">Copy</button><code>scp -r data potato@160.250.222.211:/home/potato</code></pre>
+  </div>
+
+</div>
+
+<script>
+function toggleTheme() {
+  document.body.classList.toggle("light");
+}
+
+function copyCode(btn) {
+  const code = btn.nextElementSibling.innerText;
+  navigator.clipboard.writeText(code);
+
+  btn.innerText = "Copied!";
+  setTimeout(() => {
+    btn.innerText = "Copy";
+  }, 1200);
+}
+</script>
+
+</body>
+</html>

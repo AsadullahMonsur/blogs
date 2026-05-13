@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Netplan & WiFi Watchdog Setup</title>
+
+<style>
+:root{
+    --bg:#ffffff;
+    --card:#f4f4f4;
+    --text:#111111;
+    --code:#1e1e1e;
+    --code-text:#f8f8f8;
+    --button:#2563eb;
+    --button-hover:#1d4ed8;
+    --border:#dddddd;
+    --success:#16a34a;
+}
+
+body.dark{
+    --bg:#0f172a;
+    --card:#1e293b;
+    --text:#f8fafc;
+    --code:#020617;
+    --code-text:#e2e8f0;
+    --button:#3b82f6;
+    --button-hover:#2563eb;
+    --border:#334155;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    padding:40px 20px;
+    font-family:Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    transition:0.3s;
+}
+
+.container{
+    max-width:1100px;
+    margin:auto;
+}
+
+.card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:24px;
+    margin-bottom:24px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+h1,h2{
+    margin-top:0;
+}
+
+.step{
+    margin-bottom:35px;
+}
+
+.code-container{
+    position:relative;
+    margin-top:15px;
+}
+
+pre{
+    background:var(--code);
+    color:var(--code-text);
+    padding:20px;
+    border-radius:12px;
+    overflow:auto;
+    font-size:14px;
+    line-height:1.7;
+    border:2px solid transparent;
+    transition:0.3s;
+    white-space:pre-wrap;
+}
+
+pre.copied{
+    border-color:var(--success);
+    box-shadow:0 0 20px rgba(22,163,74,0.5);
+    transform:scale(1.01);
+}
+
+button{
+    border:none;
+    cursor:pointer;
+}
+
+.copy-btn{
+    position:absolute;
+    top:10px;
+    right:10px;
+    background:var(--button);
+    color:white;
+    padding:10px 16px;
+    border-radius:10px;
+    font-size:14px;
+    font-weight:bold;
+    transition:0.25s;
+}
+
+.copy-btn:hover{
+    background:var(--button-hover);
+}
+
+.copy-btn.success{
+    background:var(--success);
+}
+
+.theme-btn{
+    background:var(--button);
+    color:white;
+    padding:12px 20px;
+    border-radius:12px;
+    margin-bottom:20px;
+    font-size:15px;
+    font-weight:bold;
+}
+
+.theme-btn:hover{
+    background:var(--button-hover);
+}
+
+.toast{
+    position:fixed;
+    bottom:25px;
+    right:25px;
+    background:var(--success);
+    color:white;
+    padding:14px 22px;
+    border-radius:12px;
+    font-weight:bold;
+    opacity:0;
+    transform:translateY(30px);
+    transition:0.35s;
+    z-index:999;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translateY(0);
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<button class="theme-btn" onclick="toggleTheme()">
+Toggle Light / Dark Theme
+</button>
+
+        <h1>Netplan and Wifi Watchdog setup</h1>
+
+        <p style="color:red;">
+            We need admin rights to OS level configuration for this facility.
+        </p>
+
+<div class="step">
+
+    <h2>Check Internet Connection Type</h2>
+
+    <p>To check internet is connecting via wifi or ethernet:</p>
+
+    <div class="code-container">
+        <button class="copy-btn" onclick="copyCode('code1',this)">
+            Copy
+        </button>
+
+<pre id="code1">ip -o -4 route show to default | awk '{print $5}'</pre>
+    </div>
+
+</div>
+
+
+<div class="step">
+
+    <h2>Check Current Device IP Address</h2>
+
+    <p>To check current device ip address:</p>
+
+    <div class="code-container">
+        <button class="copy-btn" onclick="copyCode('code2',this)">
+            Copy
+        </button>
+
+<pre id="code2">hostname -I | awk '{print $1}'</pre>
+    </div>
+
+</div>
+
+
+<div class="step">
+
+    <h2>Check Default Route or Gateway</h2>
+
+    <p>To check default route or gateway:</p>
+
+    <div class="code-container">
+        <button class="copy-btn" onclick="copyCode('code3',this)">
+            Copy
+        </button>
+
+<pre id="code3">ip route | grep default | awk '{print $3}'</pre>
+    </div>
+
+</div>
+
+
+<div class="step">
+
+    <h2>Check First DNS Server Address</h2>
+
+    <p>To check first dns server address:</p>
+
+    <div class="code-container">
+        <button class="copy-btn" onclick="copyCode('code4',this)">
+            Copy
+        </button>
+
+<pre id="code4">awk '/^nameserver/ {print $2; exit}' /etc/resolv.conf</pre>
+    </div>
+
+</div>
+
+
+<div class="step">
+
+    <h2>Go to Netplan Directory</h2>
+
+    <p>Go to following directory:</p>
+
+    <div class="code-container">
+        <button class="copy-btn" onclick="copyCode('code5',this)">
+            Copy
+        </button>
+
+<pre id="code5">cd /etc/netplan</pre>
+    </div>
+
+</div>
+
+
+<div class="step">
+
+    <h2>Remove Default Cloud Init File</h2>
+
+    <p>If you find 50-cloud-init.yaml, remove it:</p>
+
+    <div class="code-container">
+        <button class="copy-btn" onclick="copyCode('code6',this)">
+            Copy
+        </button>
+
+<pre id="code6">ls
+</pre>
+    </div>
+
+    
+        <div class="code-container">
+        <button class="copy-btn" onclick="copyCode('code6',this)">
+            Copy
+        </button>
+
+<pre id="code6">
+sudo rm 50-cloud-init.yaml</pre>
+    </div>
+
+</div>
+
+
+<div class="step">
+
+    <h2>Create Custom Netplan Configuration</h2>
+
+    <p>Create custom configuration:</p>
+
+    <div class="code-container">
+        <button class="copy-btn" onclick="copyCode('code7',this)">
+            Copy
+        </button>
+
+<pre id="code7">sudo nano 01-netcfg.yaml</pre>
+    </div>
+
+</div>
+
+
+<div class="step">
+
+    <h2>Paste Netplan Configuration</h2>
+
+    <p>
+        Assume:
+        <br>
+        Device IP: 192.168.22.30
+        <br>
+        Default Route or Gateway: 192.168.22.21
+        <br>
+        DNS: 77.88.8.1
+        <br>
+        Alternate DNS: 77.88.8.88
+        <br>
+        Wifi Name: Wonder
+        <br>
+        Password: abcdefgh
+    </p>
+
+    <div class="code-container">
+        <button class="copy-btn" onclick="copyCode('code8',this)">
+            Copy
+        </button>
+
+<pre id="code8">network:
+  version: 2
+  renderer: networkd
+
+  ethernets:
+    eth0:
+      dhcp4: no
+      optional: true
+      addresses:
+        - 192.168.22.30/24
+      routes:
+        - to: default
+          via: 192.168.22.21
+          metric: 100
+      nameservers:
+        addresses:
+          - 77.88.8.1
+          - 77.88.8.88
+
+  wifis:
+    wlan0:
+      dhcp4: no
+      optional: true
+      addresses:
+        - 192.168.22.30/24
+      routes:
+        - to: default
+          via: 192.168.22.21
+          metric: 600
+      nameservers:
+        addresses:
+          - 77.88.8.1
+          - 77.88.8.88
+      access-points:
+        "Wonder":
+          password: "abcdefgh"</pre>
+    </div>
+
+</div>
+
+
+<div class="step">
+
+    <h2>Secure Netplan File</h2>
+
+    <p>To make the file executable:</p>
+
+    <div class="code-container">
+        <button class="copy-btn" onclick="copyCode('code9',this)">
+            Copy
+        </button>
+
+<pre id="code9">sudo chmod 600 /etc/netplan/01-netcfg.yaml</pre>
+    </div>
+
+</div>
+
+
+<div class="step">
+
+    <h2>Safely Test Netplan Configuration</h2>
+
+    <p>
+        This is important and do not ignore it,
+        unless you may lock your system internet.
+    </p>
+
+    <div class="code-container">
+        <button class="copy-btn" onclick="copyCode('code10',this)">
+            Copy
+        </button>
+
+<pre id="code10">sudo netplan try</pre>
+    </div>
+
+</div>
+
+
+<div class="step">
+
+    <h2>Apply Netplan Configuration</h2>
+
+    <p>If connection is ok, then apply following:</p>
+
+    <div class="code-container">
+        <button class="copy-btn" onclick="copyCode('code11',this)">
+            Copy
+        </button>
+
+<pre id="code11">sudo netplan apply</pre>
+    </div>
+
+</div>
+
+
+<div class="step">
+
+    <h2>Create WiFi Watchdog Script</h2>
+
+    <p>
+        To create a wifi connectivity checker dog:
+    </p>
+
+    <div class="code-container">
+        <button class="copy-btn" onclick="copyCode('code12',this)">
+            Copy
+        </button>
+
+<pre id="code12">sudo nano /usr/local/bin/wifi-watchdog.sh</pre>
+    </div>
+
+</div>
+
+
+<!-- ADD THESE MISSING WATCHDOG CONTENT SECTIONS -->
+
+<div class="step">
+
+    <h2>Paste WiFi Watchdog Script</h2>
+
+    <p>Paste following under above wifi context:</p>
+
+    <div class="code-container">
+        <button class="copy-btn" onclick="copyCode('watchdogScript',this)">
+            Copy
+        </button>
+
+<pre id="watchdogScript">#!/bin/bash
+
+IFACE="wlan0"
+GATEWAY="192.168.22.21"
+TARGET="77.88.8.1"
+
+LOG_FILE="/var/log/wifi-watchdog.log"
+
+log() {
+    echo "$(date): $1" >> "$LOG_FILE"
+}
+
+check_ping() {
+    ping -c 3 -W 2 -I "$IFACE" "$1" > /dev/null 2>&1
+}
+
+# ---- STEP 1: Check connectivity ----
+check_ping "$GATEWAY"
+GW_OK=$?
+
+check_ping "$TARGET"
+NET_OK=$?
+
+# ---- CASE 1: Everything OK ----
+if [ $GW_OK -eq 0 ] && [ $NET_OK -eq 0 ]; then
+    log "Connection OK"
+    exit 0
+fi
+
+log "Warning: connectivity issue detected (gw=$GW_OK net=$NET_OK)"
+
+# ---- STEP 2: Soft recovery (NO DROP) ----
+log "Attempting soft recovery via networkd..."
+
+networkctl reconfigure "$IFACE" 2>/dev/null
+
+sleep 5
+
+# Re-check after soft recovery
+check_ping "$GATEWAY"
+GW_OK2=$?
+
+check_ping "$TARGET"
+NET_OK2=$?
+
+if [ $GW_OK2 -eq 0 ] && [ $NET_OK2 -eq 0 ]; then
+    log "Soft recovery succeeded"
+    exit 0
+fi
+
+# ---- STEP 3: Restart Wi-Fi authentication layer ----
+log "Soft recovery failed. Restarting wpa_supplicant..."
+
+systemctl restart wpa_supplicant@"$IFACE".service 2>/dev/null
+
+sleep 8
+
+# Re-check again
+check_ping "$TARGET"
+NET_OK3=$?
+
+if [ $NET_OK3 -eq 0 ]; then
+    log "Recovery successful after wpa_supplicant restart"
+    exit 0
+fi
+
+# ---- STEP 4: LAST RESORT (still controlled) ----
+log "Hard recovery required"
+
+ip link set "$IFACE" down
+sleep 2
+ip link set "$IFACE" up
+
+netplan apply
+
+sleep 10
+
+check_ping "$TARGET"
+if [ $? -eq 0 ]; then
+    log "Hard recovery succeeded"
+else
+    log "WARNING: Full recovery failed"
+fi</pre>
+
+    </div>
+
+</div>
+
+
+<div class="step">
+
+    <h2>Make Watchdog Executable</h2>
+
+    <p>To make executable file:</p>
+
+    <div class="code-container">
+        <button class="copy-btn" onclick="copyCode('code13',this)">
+            Copy
+        </button>
+
+<pre id="code13">sudo chmod +x /usr/local/bin/wifi-watchdog.sh</pre>
+    </div>
+
+</div>
+<div class="step">
+
+    <h2>Create System Boot Service for Watchdog</h2>
+
+    <p>To make a system boot service:</p>
+
+    <div class="code-container">
+        <button class="copy-btn" onclick="copyCode('code14',this)">
+            Copy
+        </button>
+
+<pre id="code14">sudo nano /etc/systemd/system/wifi-watchdog.service</pre>
+    </div>
+
+</div>
+
+<div class="step">
+
+    <h2>Paste Watchdog Service Content</h2>
+
+    <p>Paste following:</p>
+
+    <div class="code-container">
+        <button class="copy-btn" onclick="copyCode('watchdogService',this)">
+            Copy
+        </button>
+
+<pre id="watchdogService">[Unit]
+Description=WiFi Connectivity Checker
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/wifi-watchdog.sh</pre>
+
+    </div>
+
+</div>
+
+
+<div class="step">
+
+    <h2>Create Watchdog Timer</h2>
+
+    <p>To attach a timer that periodically checks connectivity:</p>
+
+    <div class="code-container">
+        <button class="copy-btn" onclick="copyCode('code15',this)">
+            Copy
+        </button>
+
+<pre id="code15">sudo nano /etc/systemd/system/wifi-watchdog.timer</pre>
+    </div>
+
+</div>
+
+<div class="step">
+
+    <h2>Paste WiFi Watchdog Timer Content</h2>
+
+    <p>Paste following:</p>
+
+    <div class="code-container">
+        <button class="copy-btn" onclick="copyCode('watchdogTimer',this)">
+            Copy
+        </button>
+
+<pre id="watchdogTimer">[Unit]
+Description=Run WiFi check every 20 seconds
+
+[Timer]
+OnBootSec=30
+OnUnitActiveSec=20
+Unit=wifi-watchdog.service
+
+[Install]
+WantedBy=timers.target</pre>
+
+    </div>
+
+</div>
+
+
+<div class="step">
+
+    <h2>Enable Watchdog Timer</h2>
+
+    <p>Then following commands are system setups:</p>
+
+    <div class="code-container">
+        <button class="copy-btn" onclick="copyCode('code16',this)">
+            Copy
+        </button>
+
+<pre id="code16">sudo systemctl daemon-reexec
+sudo systemctl daemon-reload
+sudo systemctl enable --now wifi-watchdog.timer</pre>
+    </div>
+
+</div>
+
+</div>
+
+<div id="toast" class="toast">
+✓ Text copied successfully!
+</div>
+
+<script>
+function copyCode(id,btn){
+
+    const codeBlock=document.getElementById(id);
+    const text=codeBlock.innerText;
+    const toast=document.getElementById("toast");
+
+    navigator.clipboard.writeText(text).then(()=>{
+
+        codeBlock.classList.add("copied");
+
+        btn.classList.add("success");
+        btn.innerText="Copied!";
+
+        toast.classList.add("show");
+
+        setTimeout(()=>{
+            codeBlock.classList.remove("copied");
+            btn.classList.remove("success");
+            btn.innerText="Copy";
+            toast.classList.remove("show");
+        },1800);
+
+    }).catch(()=>{
+        alert("Copy failed!");
+    });
+}
+
+function toggleTheme(){
+
+    document.body.classList.toggle("dark");
+
+    if(document.body.classList.contains("dark")){
+        localStorage.setItem("theme","dark");
+    }else{
+        localStorage.setItem("theme","light");
+    }
+}
+
+window.onload=function(){
+
+    const savedTheme=localStorage.getItem("theme");
+
+    if(savedTheme==="dark"){
+        document.body.classList.add("dark");
+    }
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Rate Limiting Setup</title>
+
+<style>
+:root{
+    --bg:#ffffff;
+    --card:#f4f4f4;
+    --text:#111111;
+    --code:#1e1e1e;
+    --code-text:#f8f8f8;
+    --button:#2563eb;
+    --button-hover:#1d4ed8;
+    --border:#dddddd;
+    --success:#16a34a;
+}
+
+body.dark{
+    --bg:#0f172a;
+    --card:#1e293b;
+    --text:#f8fafc;
+    --code:#020617;
+    --code-text:#e2e8f0;
+    --button:#3b82f6;
+    --button-hover:#2563eb;
+    --border:#334155;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    padding:40px 20px;
+    font-family:Arial, sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    transition:background 0.3s ease,color 0.3s ease;
+}
+
+.container{
+    max-width:980px;
+    margin:auto;
+}
+
+.card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:24px;
+    margin-bottom:24px;
+    transition:0.3s;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+h1,h2{
+    margin-top:0;
+}
+
+.step{
+    margin-bottom:35px;
+}
+
+.code-container{
+    position:relative;
+    margin-top:15px;
+}
+
+pre{
+    background:var(--code);
+    color:var(--code-text);
+    padding:20px;
+    border-radius:12px;
+    overflow:auto;
+    font-size:15px;
+    line-height:1.7;
+    border:2px solid transparent;
+    transition:all 0.35s ease;
+    white-space:pre-wrap;
+    word-wrap:break-word;
+}
+
+pre.copied{
+    border-color:var(--success);
+    box-shadow:
+        0 0 10px rgba(22,163,74,0.6),
+        0 0 25px rgba(22,163,74,0.4);
+    transform:scale(1.01);
+}
+
+button{
+    border:none;
+    cursor:pointer;
+    transition:0.25s ease;
+}
+
+.copy-btn{
+    position:absolute;
+    top:10px;
+    right:10px;
+    background:var(--button);
+    color:white;
+    padding:10px 16px;
+    border-radius:10px;
+    font-size:14px;
+    font-weight:bold;
+}
+
+.copy-btn:hover{
+    background:var(--button-hover);
+    transform:translateY(-2px);
+}
+
+.copy-btn.success{
+    background:var(--success) !important;
+}
+
+.theme-btn{
+    background:var(--button);
+    color:white;
+    padding:12px 20px;
+    border-radius:12px;
+    margin-bottom:20px;
+    font-size:15px;
+    font-weight:bold;
+}
+
+.theme-btn:hover{
+    background:var(--button-hover);
+}
+
+.footer{
+    text-align:center;
+    margin-top:30px;
+    opacity:0.7;
+}
+
+.toast{
+    position:fixed;
+    bottom:25px;
+    right:25px;
+    background:var(--success);
+    color:white;
+    padding:14px 22px;
+    border-radius:12px;
+    font-weight:bold;
+    opacity:0;
+    transform:translateY(30px);
+    transition:all 0.35s ease;
+    box-shadow:0 8px 20px rgba(0,0,0,0.25);
+    z-index:999;
+    pointer-events:none;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translateY(0);
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <button class="theme-btn" onclick="toggleTheme()">
+        Toggle Light / Dark Theme
+    </button>
+
+    <div class="card">
+
+        <h1>Rate Limiting Setup</h1>
+
+        <p style="color:red;">
+            We need admin rights to OS level configuration for this facility.
+        </p>
+
+        <!-- STEP 1 -->
+        <div class="step">
+            <h2>Step 1: Create Rate Limiting File</h2>
+
+            <div class="code-container">
+                <button class="copy-btn" onclick="copyCode('code1', this)">
+                    Copy
+                </button>
+
+<pre id="code1">sudo nano /usr/local/bin/rate_limit.sh</pre>
+            </div>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="step">
+            <h2>Step 2: Paste Following Script</h2>
+
+            <div class="code-container">
+                <button class="copy-btn" onclick="copyCode('code2', this)">
+                    Copy
+                </button>
+
+<pre id="code2">#!/bin/bash
+
+# Flush old rules
+iptables -F
+
+# Default policies (safer)
+iptables -P INPUT DROP
+iptables -P FORWARD DROP
+iptables -P OUTPUT ACCEPT
+
+# Allow established connections
+iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+
+# Allow localhost
+iptables -A INPUT -i lo -j ACCEPT
+
+# ✅ Allow your trusted/local IP (NO LIMIT)
+iptables -A INPUT -s 192.168.22.35 -j ACCEPT
+
+# ✅ Rate limit ONLY other IPs (new connections) and 100 bursts in 5sec
+iptables -A INPUT -p tcp -m conntrack --ctstate NEW \
+  -m hashlimit \
+  --hashlimit 100/5sec \
+  --hashlimit-burst 100 \
+  --hashlimit-mode srcip \
+  --hashlimit-name conn_limit \
+  -j ACCEPT
+
+# Allow required ports (for those who passed rate limit)
+iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+iptables -A INPUT -p tcp --dport 443 -j ACCEPT
+iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+
+# Custom ports
+iptables -A INPUT -p tcp --dport 7299 -j ACCEPT
+iptables -A INPUT -p tcp --dport 7298 -j ACCEPT
+iptables -A INPUT -p tcp --dport 7777 -j ACCEPT
+iptables -A INPUT -p tcp --dport 8081 -j ACCEPT
+iptables -A INPUT -p tcp --dport 8080 -j ACCEPT
+iptables -A INPUT -p tcp --dport 8585 -j ACCEPT
+
+# Drop everything else
+iptables -A INPUT -j DROP</pre>
+            </div>
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="step">
+            <h2>Step 3: Make File Executable</h2>
+
+            <div class="code-container">
+                <button class="copy-btn" onclick="copyCode('code3', this)">
+                    Copy
+                </button>
+
+<pre id="code3">sudo chmod +x /usr/local/bin/rate_limit.sh</pre>
+            </div>
+        </div>
+
+        <!-- STEP 4 -->
+        <div class="step">
+            <h2>Step 4: Create Auto Start Service</h2>
+
+            <div class="code-container">
+                <button class="copy-btn" onclick="copyCode('code4', this)">
+                    Copy
+                </button>
+
+<pre id="code4">sudo nano /etc/systemd/system/rate_limit.service</pre>
+            </div>
+        </div>
+
+        <!-- STEP 5 -->
+        <div class="step">
+            <h2>Step 5: Paste Service File Content</h2>
+
+            <div class="code-container">
+                <button class="copy-btn" onclick="copyCode('code5', this)">
+                    Copy
+                </button>
+
+<pre id="code5">[Unit]
+Description=Rate Limit Firewall Rules
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/rate_limit.sh
+RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target</pre>
+            </div>
+        </div>
+
+        <!-- STEP 6 -->
+        <div class="step">
+            <h2>Step 6: Enable and Start Service</h2>
+
+            <div class="code-container">
+                <button class="copy-btn" onclick="copyCode('code6', this)">
+                    Copy
+                </button>
+
+<pre id="code6">sudo systemctl daemon-reexec
+sudo systemctl daemon-reload
+sudo systemctl enable rate_limit.service
+sudo systemctl start rate_limit.service</pre>
+            </div>
+        </div>
+
+        <!-- STEP 7 -->
+        <div class="step">
+            <h2>Step 7: Stop Service</h2>
+
+            <div class="code-container">
+                <button class="copy-btn" onclick="copyCode('code7', this)">
+                    Copy
+                </button>
+
+<pre id="code7">sudo systemctl stop rate_limit.service
+sudo systemctl disable rate_limit.service</pre>
+            </div>
+        </div>
+
+        <!-- STEP 8 -->
+        <div class="step">
+            <h2>Step 8: Check Service Status</h2>
+
+            <div class="code-container">
+                <button class="copy-btn" onclick="copyCode('code8', this)">
+                    Copy
+                </button>
+
+<pre id="code8">sudo systemctl status rate_limit.service</pre>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        Firewall Rate Limiting Configuration Guide
+    </div>
+
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="toast">
+    ✓ Text copied successfully!
+</div>
+
+<script>
+function copyCode(id, btn){
+
+    const codeBlock = document.getElementById(id);
+    const text = codeBlock.innerText;
+    const toast = document.getElementById("toast");
+
+    navigator.clipboard.writeText(text).then(() => {
+
+        codeBlock.classList.add("copied");
+
+        btn.classList.add("success");
+        btn.innerText = "Copied!";
+
+        toast.classList.add("show");
+
+        setTimeout(() => {
+
+            codeBlock.classList.remove("copied");
+
+            btn.classList.remove("success");
+            btn.innerText = "Copy";
+
+            toast.classList.remove("show");
+
+        }, 1800);
+
+    }).catch(() => {
+
+        alert("Copy failed!");
+
+    });
+}
+
+/* Theme Toggle */
+function toggleTheme(){
+
+    document.body.classList.toggle("dark");
+
+    if(document.body.classList.contains("dark")){
+        localStorage.setItem("theme", "dark");
+    }else{
+        localStorage.setItem("theme", "light");
+    }
+}
+
+/* Load Theme */
+window.onload = function(){
+
+    const savedTheme = localStorage.getItem("theme");
+
+    if(savedTheme === "dark"){
+        document.body.classList.add("dark");
+    }
+}
+</script>
+
+</body>
+</html>
