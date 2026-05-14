@@ -419,11 +419,9 @@ cmake /home/cinnamon/softwares/mariadb-10.11.15 \
     Paste the following script:
   </p>
 
-  <div class="code-bash">
+  <div class="code-block">
     <button class="copy-btn">Copy</button>
-<pre><code class="language-bash">
-
-#!/usr/bin/env bash
+    <pre><code class="language-bash">#!/usr/bin/env bash
 
 # Fixed MariaDB port
 PORT=3307
@@ -437,29 +435,27 @@ mkdir -p "$ROOT_DIR/logs"
 mkdir -p "$ROOT_DIR/data"
 
 # Generate my.cnf
-cat > "$ROOT_DIR/my.cnf" <<EOF
-        [client]
-        port=$PORT
-        socket=$ROOT_DIR/tmp/mysql.sock
+cat &gt; "$ROOT_DIR/my.cnf" &lt;&lt;EOF
+[client]
+port=$PORT
+socket=$ROOT_DIR/tmp/mysql.sock
 
-        [mysqld]
-        port=$PORT
-        socket=$ROOT_DIR/tmp/mysql.sock
-        basedir=$ROOT_DIR
-        datadir=$ROOT_DIR/data
-        tmpdir=$ROOT_DIR/tmp
-        pid-file=$ROOT_DIR/tmp/mysqld.pid
-        log-error=$ROOT_DIR/logs/mariadb-error.log
-        skip-networking=0
-        skip-grant-tables=0
-        skip-symbolic-links
-        EOF
+[mysqld]
+port=$PORT
+socket=$ROOT_DIR/tmp/mysql.sock
+basedir=$ROOT_DIR
+datadir=$ROOT_DIR/data
+tmpdir=$ROOT_DIR/tmp
+pid-file=$ROOT_DIR/tmp/mysqld.pid
+log-error=$ROOT_DIR/logs/mariadb-error.log
+skip-networking=0
+skip-grant-tables=0
+skip-symbolic-links
+EOF
 
 echo "my.cnf generated successfully"
 echo "Location: $ROOT_DIR/my.cnf"
-echo "Port: $PORT"
-
-</code></pre>
+echo "Port: $PORT"</code></pre>
   </div>
 
   <p>
