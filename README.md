@@ -12,6 +12,9 @@ Operating System Info Links:
 6.https://asadullahmonsur.github.io/blogs/operating_systems/harmony_os_next_release_dates.html
 7.https://asadullahmonsur.github.io/blogs/operating_systems/windows_release_dates.html
 
+Gradle Info:
+1.https://asadullahmonsur.github.io/blogs/gradle/gradle.html
+
 VPS Service
 1.https://asadullahmonsur.github.io/blogs/webapp/raspberry_pi_service_tier.html
 
