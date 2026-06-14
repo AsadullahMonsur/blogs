@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>List of Contents</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --surface-hover: #334155;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-hover: #0ea5e9;
+      --border: rgba(148, 163, 184, 0.15);
+      --shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 1.25rem;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding: 2rem 0;
+    }
+    header h1 {
+      font-size: clamp(1.75rem, 5vw, 2.5rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, var(--text), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    header p {
+      color: var(--text-muted);
+      font-size: clamp(0.95rem, 2vw, 1.1rem);
+    }
+    .category {
+      margin-bottom: 2.5rem;
+    }
+    .category-title {
+      font-size: clamp(1.1rem, 3vw, 1.35rem);
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .category-title::before {
+      content: "";
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+    .link-list {
+      list-style: none;
+    }
+    .link-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.875rem 1rem;
+      margin-bottom: 0.5rem;
+      transition: all 0.2s ease;
+    }
+    .link-item:hover {
+      background: var(--surface-hover);
+      border-color: rgba(56, 189, 248, 0.25);
+      transform: translateX(3px);
+    }
+    .serial {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 32px;
+      height: 32px;
+      background: rgba(56, 189, 248, 0.1);
+      color: var(--accent);
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+    .link-item a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: clamp(0.85rem, 2vw, 0.95rem);
+      word-break: break-all;
+      flex: 1;
+      min-width: 0;
+    }
+    .link-item a:hover {
+      color: var(--accent);
+    }
+    .link-arrow {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      flex-shrink: 0;
+      transition: color 0.2s ease;
+    }
+    .link-item:hover .link-arrow {
+      color: var(--accent);
+    }
+    footer {
+      text-align: center;
+      padding: 2rem 0;
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      border-top: 1px solid var(--border);
+      margin-top: 2rem;
+    }
+    @media (max-width: 480px) {
+      .container {
+        padding: 1.25rem 1rem;
+      }
+      .link-item {
+        padding: 0.75rem 0.875rem;
+        gap: 0.75rem;
+      }
+      .serial {
+        min-width: 28px;
+        height: 28px;
+        font-size: 0.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>List of Contents</h1>
+      <p>By Team Olivight</p>
+    </header>
+    <section class="category">
+      <h2 class="category-title">UI Design</h2>
+      <ol class="link-list">
+        <li class="link-item">
+          <span class="serial">1</span>
+          <a href="https://asadullahmonsur.github.io/content_host/" target="_blank" rel="noopener noreferrer">Content Host</a>
+          <span class="link-arrow">&#8599;</span>
+        </li>
+      </ol>
+    </section>
+    <section class="category">
+      <h2 class="category-title">Java Info Links</h2>
+      <ol class="link-list">
+        <li class="link-item">
+          <span class="serial">1</span>
+          <a href="https://asadullahmonsur.github.io/blogs/java/java_release_dates.html" target="_blank" rel="noopener noreferrer">Java Release Dates</a>
+          <span class="link-arrow">&#8599;</span>
+        </li>
+      </ol>
+    </section>
+    <section class="category">
+      <h2 class="category-title">Operating System Info Links</h2>
+      <ol class="link-list">
+        <li class="link-item">
+          <span class="serial">1</span>
+          <a href="https://asadullahmonsur.github.io/blogs/operating_systems/linux_distros_by_release_dates.html" target="_blank" rel="noopener noreferrer">Linux Distros by Release Dates</a>
+          <span class="link-arrow">&#8599;</span>
+        </li>
+        <li class="link-item">
+          <span class="serial">2</span>
+          <a href="https://asadullahmonsur.github.io/blogs/operating_systems/ubuntu_release_dates.html" target="_blank" rel="noopener noreferrer">Ubuntu Release Dates</a>
+          <span class="link-arrow">&#8599;</span>
+        </li>
+        <li class="link-item">
+          <span class="serial">3</span>
+          <a href="https://asadullahmonsur.github.io/blogs/operating_systems/android_release_dates.html" target="_blank" rel="noopener noreferrer">Android Release Dates</a>
+          <span class="link-arrow">&#8599;</span>
+        </li>
+        <li class="link-item">
+          <span class="serial">4</span>
+          <a href="https://asadullahmonsur.github.io/blogs/operating_systems/mac_release_dates.html" target="_blank" rel="noopener noreferrer">macOS Release Dates</a>
+          <span class="link-arrow">&#8599;</span>
+        </li>
+        <li class="link-item">
+          <span class="serial">5</span>
+          <a href="https://asadullahmonsur.github.io/blogs/operating_systems/ios_release_dates.html" target="_blank" rel="noopener noreferrer">iOS Release Dates</a>
+          <span class="link-arrow">&#8599;</span>
+        </li>
+        <li class="link-item">
+          <span class="serial">6</span>
+          <a href="https://asadullahmonsur.github.io/blogs/operating_systems/harmony_os_next_release_dates.html" target="_blank" rel="noopener noreferrer">HarmonyOS Next Release Dates</a>
+          <span class="link-arrow">&#8599;</span>
+        </li>
+        <li class="link-item">
+          <span class="serial">7</span>
+          <a href="https://asadullahmonsur.github.io/blogs/operating_systems/windows_release_dates.html" target="_blank" rel="noopener noreferrer">Windows Release Dates</a>
+          <span class="link-arrow">&#8599;</span>
+        </li>
+      </ol>
+    </section>
+    <section class="category">
+      <h2 class="category-title">Gradle Info</h2>
+      <ol class="link-list">
+        <li class="link-item">
+          <span class="serial">1</span>
+          <a href="https://asadullahmonsur.github.io/blogs/gradle/gradle.html" target="_blank" rel="noopener noreferrer">Gradle Guide</a>
+          <span class="link-arrow">&#8599;</span>
+        </li>
+      </ol>
+    </section>
+    <section class="category">
+      <h2 class="category-title">VPS Service</h2>
+      <ol class="link-list">
+        <li class="link-item">
+          <span class="serial">1</span>
+          <a href="https://asadullahmonsur.github.io/blogs/webapp/raspberry_pi_service_tier.html" target="_blank" rel="noopener noreferrer">Raspberry Pi Service Tier</a>
+          <span class="link-arrow">&#8599;</span>
+        </li>
+      </ol>
+    </section>
+    <section class="category">
+      <h2 class="category-title">Unwinder API</h2>
+      <ol class="link-list">
+        <li class="link-item">
+          <span class="serial">1</span>
+          <a href="https://asadullahmonsur.github.io/blogs/webapp/unwinder_api_endpoints.html" target="_blank" rel="noopener noreferrer">Unwinder API Endpoints</a>
+          <span class="link-arrow">&#8599;</span>
+        </li>
+      </ol>
+    </section>
+    <section class="category">
+      <h2 class="category-title">Server Configuration</h2>
+      <ol class="link-list">
+        <li class="link-item">
+          <span class="serial">1</span>
+          <a href="https://asadullahmonsur.github.io/blogs/webapp/server_system/general_server_guide.html" target="_blank" rel="noopener noreferrer">General Server Guide</a>
+          <span class="link-arrow">&#8599;</span>
+        </li>
+        <li class="link-item">
+          <span class="serial">2</span>
+          <a href="https://asadullahmonsur.github.io/blogs/webapp/server_system/server_network_configuration.html" target="_blank" rel="noopener noreferrer">Server Network Configuration</a>
+          <span class="link-arrow">&#8599;</span>
+        </li>
+        <li class="link-item">
+          <span class="serial">3</span>
+          <a href="https://asadullahmonsur.github.io/blogs/webapp/server_system/rate_limiting_instruction.html" target="_blank" rel="noopener noreferrer">Rate Limiting Instruction</a>
+          <span class="link-arrow">&#8599;</span>
+        </li>
+      </ol>
+    </section>
+    <section class="category">
+      <h2 class="category-title">MariaDB Configuration</h2>
+      <ol class="link-list">
+        <li class="link-item">
+          <span class="serial">1</span>
+          <a href="https://asadullahmonsur.github.io/blogs/webapp/mariadb_configuration/mariadb_overview.html" target="_blank" rel="noopener noreferrer">MariaDB Overview</a>
+          <span class="link-arrow">&#8599;</span>
+        </li>
+      </ol>
+    </section>
+    <footer>
+      <p>By Team Olivight</p>
+    </footer>
+  </div>
+</body>
+</html>
