@@ -1,5 +1,8 @@
 Available All Links under Blogs
 
+UI Design
+1.https://asadullahmonsur.github.io/content_host/
+
 Java Info Links: 
 1.https://asadullahmonsur.github.io/blogs/java/java_release_dates.html
 
