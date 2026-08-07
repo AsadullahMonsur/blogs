@@ -32,3 +32,11 @@ Server Configuration
 
 MariaDB Configuration
 1.https://asadullahmonsur.github.io/blogs/webapp/mariadb_configuration/mariadb_overview.html
+
+World Data
+1.https://asadullahmonsur.github.io/blogs/world_data/african_countries.html
+2.https://asadullahmonsur.github.io/blogs/world_data/asian_countries.html
+3.https://asadullahmonsur.github.io/blogs/world_data/eurpean_countries.html
+4.https://asadullahmonsur.github.io/blogs/world_data/north_american_countries.html
+5.https://asadullahmonsur.github.io/blogs/world_data/south_american_countries.html
+6.https://asadullahmonsur.github.io/blogs/world_data/rest_countries.html
