@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oceania Countries</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Segoe UI,Arial,sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#0f172a,#1e3a8a,#0ea5e9);
+padding:40px;
+min-height:100vh;
+}
+
+.container{
+max-width:1100px;
+margin:auto;
+background:white;
+border-radius:18px;
+overflow:hidden;
+box-shadow:0 20px 50px rgba(0,0,0,.25);
+}
+
+header{
+background:linear-gradient(135deg,#2563eb,#7c3aed);
+color:white;
+padding:30px;
+text-align:center;
+}
+
+.toolbar{
+padding:25px;
+text-align:center;
+background:#f8fafc;
+}
+
+button{
+background:linear-gradient(135deg,#2563eb,#4f46e5);
+color:white;
+border:none;
+padding:14px 28px;
+border-radius:10px;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+transition:.25s;
+}
+
+button:hover{
+transform:translateY(-3px);
+box-shadow:0 10px 25px rgba(37,99,235,.35);
+}
+
+#status{
+margin-top:15px;
+font-weight:bold;
+color:#16a34a;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+thead{
+background:#1e40af;
+color:white;
+}
+
+th,td{
+padding:15px;
+border-bottom:1px solid #e5e7eb;
+text-align:left;
+}
+
+tbody tr:nth-child(even){
+background:#f8fafc;
+}
+
+tbody tr:hover{
+background:#dbeafe;
+}
+
+.serial{
+font-weight:bold;
+color:#2563eb;
+}
+
+.alpha{
+font-weight:bold;
+font-size:20px;
+color:#7c3aed;
+}
+
+.code{
+font-weight:bold;
+color:#dc2626;
+}
+
+.continent{
+font-weight:bold;
+color:#059669;
+}
+
+footer{
+padding:20px;
+text-align:center;
+background:#f8fafc;
+}
+
+@media(max-width:700px){
+table{
+display:block;
+overflow:auto;
+}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+<h1>Remaining ISO Countries</h1>
+<p>Countries Not Included in Asia, Europe, Africa, North America & South America</p>
+</header>
+
+<div class="toolbar">
+<button onclick="copyNames()">📋 Copy JSON Names</button>
+<div id="status"></div>
+</div>
+
+<table>
+
+<thead>
+<tr>
+<th>Serial</th>
+<th>Alphabet</th>
+<th>Country Name</th>
+<th>ISO</th>
+<th>Continent</th>
+</tr>
+</thead>
+
+<tbody id="tbody"></tbody>
+
+</table>
+
+<footer>
+Total Countries : <strong id="total"></strong>
+</footer>
+
+</div>
+
+<script>
+
+const countries=[
+{name:"Australia",code:"AU",continent:"Oceania"},
+{name:"Fiji",code:"FJ",continent:"Oceania"},
+{name:"Kiribati",code:"KI",continent:"Oceania"},
+{name:"Marshall Islands",code:"MH",continent:"Oceania"},
+{name:"Micronesia",code:"FM",continent:"Oceania"},
+{name:"Nauru",code:"NR",continent:"Oceania"},
+{name:"New Zealand",code:"NZ",continent:"Oceania"},
+{name:"Palau",code:"PW",continent:"Oceania"},
+{name:"Papua New Guinea",code:"PG",continent:"Oceania"},
+{name:"Samoa",code:"WS",continent:"Oceania"},
+{name:"Solomon Islands",code:"SB",continent:"Oceania"},
+{name:"Tonga",code:"TO",continent:"Oceania"},
+{name:"Tuvalu",code:"TV",continent:"Oceania"},
+{name:"Vanuatu",code:"VU",continent:"Oceania"}
+];
+
+const tbody=document.getElementById("tbody");
+
+countries.forEach((c,i)=>{
+
+tbody.innerHTML+=`
+<tr>
+<td class="serial">${i+1}</td>
+<td class="alpha">${c.name[0]}</td>
+<td>${c.name}</td>
+<td class="code">${c.code}</td>
+<td class="continent">${c.continent}</td>
+</tr>
+`;
+
+});
+
+document.getElementById("total").textContent=countries.length;
+
+function copyNames(){
+
+const names=countries.map(c=>c.name);
+
+navigator.clipboard.writeText(JSON.stringify(names,null,2));
+
+document.getElementById("status").innerHTML="✅ JSON copied.";
+
+setTimeout(()=>{
+document.getElementById("status").innerHTML="";
+},2500);
+
+}
+
+</script>
+
+</body>
+</html>

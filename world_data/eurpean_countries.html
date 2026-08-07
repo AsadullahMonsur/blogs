@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>European ISO Countries</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,Arial,sans-serif;
+}
+body{
+    background:linear-gradient(135deg,#0f172a,#1e3a8a,#0ea5e9);
+    min-height:100vh;
+    padding:40px;
+}
+.container{
+    max-width:1100px;
+    margin:auto;
+    background:#fff;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 20px 50px rgba(0,0,0,.25);
+}
+header{
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+    color:#fff;
+    text-align:center;
+    padding:30px;
+}
+header h1{
+    font-size:34px;
+}
+header p{
+    margin-top:10px;
+    opacity:.9;
+}
+.toolbar{
+    text-align:center;
+    padding:25px;
+    background:#f8fafc;
+}
+button{
+    border:none;
+    padding:14px 26px;
+    border-radius:10px;
+    background:linear-gradient(135deg,#2563eb,#4f46e5);
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+    font-weight:bold;
+    transition:.25s;
+}
+button:hover{
+    transform:translateY(-3px);
+    box-shadow:0 10px 25px rgba(37,99,235,.35);
+}
+#status{
+    margin-top:15px;
+    color:#16a34a;
+    font-weight:bold;
+}
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+thead{
+    background:#1e40af;
+    color:white;
+}
+th,td{
+    padding:15px;
+    border-bottom:1px solid #e5e7eb;
+    text-align:left;
+}
+tbody tr:nth-child(even){
+    background:#f8fafc;
+}
+tbody tr:hover{
+    background:#dbeafe;
+}
+.serial{
+    color:#2563eb;
+    font-weight:bold;
+}
+.alpha{
+    color:#7c3aed;
+    font-weight:bold;
+    font-size:20px;
+}
+.code{
+    color:#dc2626;
+    font-weight:bold;
+}
+footer{
+    padding:20px;
+    background:#f8fafc;
+    text-align:center;
+}
+@media(max-width:700px){
+table{
+display:block;
+overflow:auto;
+}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+<h1>European ISO Countries</h1>
+<p>Alphabetically Sorted ISO 3166-1 Country List</p>
+</header>
+
+<div class="toolbar">
+<button onclick="copyNames()">📋 Copy JSON Names</button>
+<div id="status"></div>
+</div>
+
+<table>
+
+<thead>
+<tr>
+<th>Serial</th>
+<th>Alphabet</th>
+<th>Country Name</th>
+<th>ISO</th>
+</tr>
+</thead>
+
+<tbody id="tbody"></tbody>
+
+</table>
+
+<footer>
+Total European Countries: <strong id="total"></strong>
+</footer>
+
+</div>
+
+<script>
+
+const countries = [
+{name:"Albania",code:"AL"},
+{name:"Andorra",code:"AD"},
+{name:"Austria",code:"AT"},
+{name:"Belarus",code:"BY"},
+{name:"Belgium",code:"BE"},
+{name:"Bosnia and Herzegovina",code:"BA"},
+{name:"Bulgaria",code:"BG"},
+{name:"Croatia",code:"HR"},
+{name:"Czechia",code:"CZ"},
+{name:"Denmark",code:"DK"},
+{name:"Estonia",code:"EE"},
+{name:"Finland",code:"FI"},
+{name:"France",code:"FR"},
+{name:"Germany",code:"DE"},
+{name:"Greece",code:"GR"},
+{name:"Hungary",code:"HU"},
+{name:"Iceland",code:"IS"},
+{name:"Ireland",code:"IE"},
+{name:"Italy",code:"IT"},
+{name:"Kosovo",code:"XK"},
+{name:"Latvia",code:"LV"},
+{name:"Liechtenstein",code:"LI"},
+{name:"Lithuania",code:"LT"},
+{name:"Luxembourg",code:"LU"},
+{name:"Malta",code:"MT"},
+{name:"Moldova",code:"MD"},
+{name:"Monaco",code:"MC"},
+{name:"Montenegro",code:"ME"},
+{name:"Netherlands",code:"NL"},
+{name:"North Macedonia",code:"MK"},
+{name:"Norway",code:"NO"},
+{name:"Poland",code:"PL"},
+{name:"Portugal",code:"PT"},
+{name:"Romania",code:"RO"},
+{name:"San Marino",code:"SM"},
+{name:"Serbia",code:"RS"},
+{name:"Slovakia",code:"SK"},
+{name:"Slovenia",code:"SI"},
+{name:"Spain",code:"ES"},
+{name:"Sweden",code:"SE"},
+{name:"Switzerland",code:"CH"},
+{name:"Ukraine",code:"UA"},
+{name:"United Kingdom",code:"GB"},
+{name:"Vatican City",code:"VA"}
+];
+
+const tbody=document.getElementById("tbody");
+
+countries.forEach((country,index)=>{
+tbody.innerHTML+=`
+<tr>
+<td class="serial">${index+1}</td>
+<td class="alpha">${country.name[0]}</td>
+<td>${country.name}</td>
+<td class="code">${country.code}</td>
+</tr>
+`;
+});
+
+document.getElementById("total").innerText=countries.length;
+
+function copyNames(){
+const names=countries.map(c=>c.name);
+navigator.clipboard.writeText(JSON.stringify(names,null,2));
+document.getElementById("status").innerHTML="✅ JSON copied to clipboard.";
+setTimeout(()=>{
+document.getElementById("status").innerHTML="";
+},2500);
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Asian ISO Countries</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,Arial,sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#0f172a,#1e3a8a,#0ea5e9);
+    min-height:100vh;
+    padding:40px;
+}
+
+.container{
+    max-width:1100px;
+    margin:auto;
+    background:white;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 20px 50px rgba(0,0,0,.25);
+}
+
+header{
+    padding:30px;
+    text-align:center;
+    color:white;
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+}
+
+header h1{
+    font-size:34px;
+}
+
+header p{
+    margin-top:10px;
+    opacity:.9;
+}
+
+.toolbar{
+    padding:25px;
+    text-align:center;
+    background:#f8fafc;
+}
+
+button{
+    background:linear-gradient(135deg,#2563eb,#4f46e5);
+    color:white;
+    border:none;
+    padding:14px 26px;
+    font-size:16px;
+    border-radius:10px;
+    cursor:pointer;
+    transition:.25s;
+    font-weight:bold;
+}
+
+button:hover{
+    transform:translateY(-3px);
+    box-shadow:0 10px 25px rgba(37,99,235,.35);
+}
+
+#status{
+    margin-top:15px;
+    color:#16a34a;
+    font-weight:bold;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+thead{
+    background:#1e40af;
+    color:white;
+}
+
+th,td{
+    padding:15px;
+    text-align:left;
+    border-bottom:1px solid #e5e7eb;
+}
+
+tbody tr:nth-child(even){
+    background:#f8fafc;
+}
+
+tbody tr:hover{
+    background:#dbeafe;
+    transition:.2s;
+}
+
+.serial{
+    font-weight:bold;
+    color:#2563eb;
+}
+
+.alpha{
+    font-size:20px;
+    font-weight:bold;
+    color:#7c3aed;
+}
+
+.code{
+    font-weight:bold;
+    color:#dc2626;
+}
+
+footer{
+    padding:20px;
+    text-align:center;
+    background:#f8fafc;
+    color:#666;
+}
+
+@media(max-width:700px){
+table{
+display:block;
+overflow:auto;
+}
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<header>
+<h1>Asian ISO Countries</h1>
+<p>Alphabetically Sorted ISO 3166-1 Country List</p>
+</header>
+
+<div class="toolbar">
+<button onclick="copyNames()">📋 Copy JSON Names</button>
+<div id="status"></div>
+</div>
+
+<table>
+
+<thead>
+<tr>
+<th>Serial</th>
+<th>Alphabet</th>
+<th>Country Name</th>
+<th>ISO</th>
+</tr>
+</thead>
+
+<tbody id="tbody"></tbody>
+
+</table>
+
+<footer>
+Total Asian ISO Countries: <strong id="total"></strong>
+</footer>
+
+</div>
+
+<script>
+
+const countries = [
+{name:"Afghanistan",code:"AF"},
+{name:"Armenia",code:"AM"},
+{name:"Azerbaijan",code:"AZ"},
+{name:"Bahrain",code:"BH"},
+{name:"Bangladesh",code:"BD"},
+{name:"Bhutan",code:"BT"},
+{name:"Brunei",code:"BN"},
+{name:"Cambodia",code:"KH"},
+{name:"China",code:"CN"},
+{name:"Cyprus",code:"CY"},
+{name:"Georgia",code:"GE"},
+{name:"India",code:"IN"},
+{name:"Indonesia",code:"ID"},
+{name:"Iran",code:"IR"},
+{name:"Iraq",code:"IQ"},
+{name:"Israel",code:"IL"},
+{name:"Japan",code:"JP"},
+{name:"Jordan",code:"JO"},
+{name:"Kazakhstan",code:"KZ"},
+{name:"Kuwait",code:"KW"},
+{name:"Kyrgyzstan",code:"KG"},
+{name:"Laos",code:"LA"},
+{name:"Lebanon",code:"LB"},
+{name:"Malaysia",code:"MY"},
+{name:"Maldives",code:"MV"},
+{name:"Mongolia",code:"MN"},
+{name:"Myanmar",code:"MM"},
+{name:"Nepal",code:"NP"},
+{name:"North Korea",code:"KP"},
+{name:"Oman",code:"OM"},
+{name:"Pakistan",code:"PK"},
+{name:"Palestine",code:"PS"},
+{name:"Philippines",code:"PH"},
+{name:"Qatar",code:"QA"},
+{name:"Saudi Arabia",code:"SA"},
+{name:"Singapore",code:"SG"},
+{name:"South Korea",code:"KR"},
+{name:"Sri Lanka",code:"LK"},
+{name:"Syria",code:"SY"},
+{name:"Taiwan",code:"TW"},
+{name:"Tajikistan",code:"TJ"},
+{name:"Thailand",code:"TH"},
+{name:"Timor-Leste",code:"TL"},
+{name:"Turkey",code:"TR"},
+{name:"Turkmenistan",code:"TM"},
+{name:"United Arab Emirates",code:"AE"},
+{name:"Uzbekistan",code:"UZ"},
+{name:"Vietnam",code:"VN"},
+{name:"Yemen",code:"YE"}
+];
+
+const tbody=document.getElementById("tbody");
+
+countries.forEach((c,i)=>{
+
+tbody.innerHTML+=`
+<tr>
+<td class="serial">${i+1}</td>
+<td class="alpha">${c.name[0]}</td>
+<td>${c.name}</td>
+<td class="code">${c.code}</td>
+</tr>
+`;
+
+});
+
+document.getElementById("total").innerText=countries.length;
+
+function copyNames(){
+
+const names=countries.map(x=>x.name);
+
+navigator.clipboard.writeText(JSON.stringify(names,null,2));
+
+document.getElementById("status").innerHTML="✅ JSON copied to clipboard.";
+
+setTimeout(()=>{
+document.getElementById("status").innerHTML="";
+},2500);
+
+}
+
+</script>
+
+</body>
+</html>
