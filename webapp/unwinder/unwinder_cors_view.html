@@ -83,6 +83,10 @@ GET https://160.250.222.211:8585/unwinder/api_info
 </div>
 
 <button id="btn">Fetch API</button>
+<button id="change_btn">Change API</button>
+<button id="reset_btn">Reset</button>
+
+
 
 <div class="status" id="status"></div>
 
@@ -92,67 +96,87 @@ GET https://160.250.222.211:8585/unwinder/api_info
 
 <script>
 
-const API = "https://160.250.222.211:8585/unwinder/api_info";
+    const DEFAULT_API = "https://160.250.222.211:8585/unwinder/api_info";
+    let API = DEFAULT_API;
 
-const btn=document.getElementById("btn");
-const status=document.getElementById("status");
-const output=document.getElementById("output");
 
-btn.onclick = async ()=>{
-
-    console.clear();
-
-    console.log("Origin:", window.location.origin);
-    console.log("Location:", window.location.href);
-
-    status.innerHTML="Loading...";
-    output.textContent="";
-
-    try{
-
-        const response = await fetch(API,{
-            method:"GET",
-            mode:"cors",
-            cache:"no-cache"
-        });
-
-        console.log("Response:",response);
-        console.log("Status:",response.status);
-
-        const text = await response.text();
-
-        console.log("Body:",text);
-
-        status.innerHTML="✅ Success";
-
-        output.textContent=text;
-
-    }
-    catch(error){
-
-        console.error("FULL ERROR:",error);
-
-        status.innerHTML="❌ Failed";
-
-        output.textContent=
-`Message:
-${error.message}
-
-Name:
-${error.name}
-
-Origin:
-${window.location.origin}
-
-Location:
-${window.location.href}
-
-See the browser Console (F12) for more details.
-`;
-
+    function changeApi(CHANGED_API) {
+        API = CHANGED_API;
     }
 
-};
+
+
+
+    const reset_btn=document.getElementById("reset_btn");
+    reset_btn.onclick = async ()=>{
+          changeApi(DEFAULT_API);
+    };
+
+
+    const change_btn=document.getElementById("change_btn");
+    change_btn.onclick = async ()=>{
+          changeApi("https://160.250.222.211:8585/unwinder/10/paged");
+    };
+
+    const btn=document.getElementById("btn");
+    const status=document.getElementById("status");
+    const output=document.getElementById("output");
+
+    btn.onclick = async ()=>{
+
+        console.clear();
+
+        console.log("Origin:", window.location.origin);
+        console.log("Location:", window.location.href);
+
+        status.innerHTML="Loading...";
+        output.textContent="";
+
+        try{
+
+            const response = await fetch(API,{
+                method:"GET",
+                mode:"cors",
+                cache:"no-cache"
+            });
+
+            console.log("Response:",response);
+            console.log("Status:",response.status);
+
+            const text = await response.text();
+
+            console.log("Body:",text);
+
+            status.innerHTML="✅ Success";
+
+            output.textContent=text;
+
+        }
+        catch(error){
+
+            console.error("FULL ERROR:",error);
+
+            status.innerHTML="❌ Failed";
+
+            output.textContent=
+    `Message:
+    ${error.message}
+
+    Name:
+    ${error.name}
+
+    Origin:
+    ${window.location.origin}
+
+    Location:
+    ${window.location.href}
+
+    See the browser Console (F12) for more details.
+    `;
+
+        }
+
+    };
 
 </script>
 
