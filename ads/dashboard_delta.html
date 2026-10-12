@@ -24,9 +24,10 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}button:focus-vis
 @media(max-width:1050px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.toolbar{grid-template-columns:minmax(180px,1fr) 1fr 1fr}.filter-actions{grid-column:1/-1;justify-content:space-between}.hero{gap:20px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:650px){.shell{width:calc(100% - 26px)}.topbar{height:63px}.topnav{font-size:8px;gap:9px}.hero{grid-template-columns:1fr;padding:38px 0 25px;gap:23px}h1{font-size:clamp(45px,15vw,76px)}.hero-visual{height:115px}.hero-visual:before{width:140px;height:140px}.stats{gap:8px}.stat{padding:13px}.stat strong{font-size:22px}.workspace-head{padding:16px;align-items:flex-start;flex-direction:column}.toolbar{grid-template-columns:1fr 1fr;padding:13px}.searchbox{grid-column:1/-1}.filter-actions{grid-column:1/-1}.collection-meta{padding:12px 13px;align-items:flex-start;flex-direction:column}.meta-right{width:100%;justify-content:space-between}.grid{grid-template-columns:1fr;padding:0 13px 16px;gap:12px}.card-media{height:210px}.list-view .card{grid-template-columns:1fr}.list-view .card-media{height:170px;min-height:0}.list-view .ad-slot{margin-left:auto;margin-right:auto}.pagination{padding:0 12px 20px}.foot{flex-direction:column}.form-grid,.overview-layout{grid-template-columns:1fr}.field.full{grid-column:auto}.overview-image{height:190px}.modal{padding:18px}.btn{padding:0 10px}}
 /* Live 320 × 50 provider ad in every catalogue card */
-.ad-slot{height:60px;width:min(350px,100%);padding:0;border:0;background:transparent;animation:none;overflow:hidden;display:flex;align-items:center;justify-content:center;margin:13px auto 0}
+.ad-slot{height:50px;width:min(320px,100%);padding:0;border:0;background:transparent;animation:none;overflow:hidden;display:flex;align-items:center;justify-content:center;margin:13px auto 0;position:relative}
 .ad-slot:after{display:none}
-.ad-frame{display:block;flex:0 0 320px;width:320px;height:50px;max-width:100%;border:0;background:transparent}
+.ad-status{font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:#777}
+.ad-slot iframe{display:block;max-width:100%;border:0;background:transparent}
 
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
 </style>
@@ -208,9 +209,68 @@ function getFiltered(){
   return list;
 }
 function adBlock(){
-  // Isolate each provider snippet in its own iframe so every card has an independent atOptions scope.
-  const adDocument = `<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"></head><body style="margin:0;width:320px;height:50px;overflow:hidden;background:transparent"><script>var atOptions={"key":"0e5334affec07316e853172b55388b22","format":"iframe","height":50,"width":320,"params":{}};<\/script><script src="https://www.highrevenueformat.com/0e5334affec07316e853172b55388b22/invoke.js"><\/script></body></html>`;
-  return `<div class="ad-slot" aria-label="Advertisement" title="Advertisement"><iframe class="ad-frame" title="Advertisement" width="320" height="50" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" sandbox="allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox" srcdoc="${esc(adDocument)}"></iframe></div>`;
+  // The provider script is initialized directly in the page (not in a sandboxed iframe).
+  // Loading is started when a slot approaches the viewport and serialized because this
+  // provider's snippet uses the shared global window.atOptions variable.
+  return `<div class="ad-slot" data-ad-slot="true" aria-label="Advertisement" title="Advertisement"><span class="ad-status">Advertisement</span></div>`;
+}
+const AD_KEY = "0e5334affec07316e853172b55388b22";
+const adQueue = [];
+let adQueueRunning = false;
+function queueAdSlot(slot){
+  if(!slot || slot.dataset.adState) return;
+  slot.dataset.adState = "queued";
+  adQueue.push(slot);
+  processAdQueue();
+}
+function processAdQueue(){
+  if(adQueueRunning || !adQueue.length) return;
+  const slot = adQueue.shift();
+  if(!slot || !slot.isConnected){ if(slot) delete slot.dataset.adState; processAdQueue(); return; }
+  adQueueRunning = true;
+  slot.dataset.adState = "loading";
+  slot.innerHTML = "";
+  // The Adsterra-style snippet reads this global when invoke.js executes. Serialize
+  // loading so another card cannot overwrite atOptions before the current script runs.
+  window.atOptions = { key: AD_KEY, format: "iframe", height: 50, width: 320, params: {} };
+  const script = document.createElement("script");
+  script.src = `https://www.highrevenueformat.com/${AD_KEY}/invoke.js`;
+  script.async = false;
+  script.dataset.catalogueAd = "true";
+  script.onload = () => {
+    slot.dataset.adState = "loaded";
+    adQueueRunning = false;
+    processAdQueue();
+  };
+  script.onerror = () => {
+    slot.dataset.adState = "error";
+    slot.innerHTML = '<span class="ad-status">Ad unavailable</span>';
+    adQueueRunning = false;
+    processAdQueue();
+  };
+  slot.appendChild(script);
+  // Avoid a stuck queue if a blocked network request never fires load/error.
+  setTimeout(() => {
+    if(adQueueRunning && slot.dataset.adState === "loading"){
+      slot.dataset.adState = "timeout";
+      slot.innerHTML = '<span class="ad-status">Ad did not load</span>';
+      adQueueRunning = false;
+      processAdQueue();
+    }
+  }, 12000);
+}
+function initializeAds(root){
+  const slots = [...root.querySelectorAll('[data-ad-slot="true"]')];
+  if("IntersectionObserver" in window){
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){ queueAdSlot(entry.target); observer.unobserve(entry.target); }
+      });
+    }, { rootMargin: "250px 0px" });
+    slots.forEach(slot => observer.observe(slot));
+  } else {
+    slots.forEach(queueAdSlot);
+  }
 }
 function cardHTML(item,index){
   const image=validHttpUrl(item.image)||fallbackUrl;
@@ -233,6 +293,7 @@ function render(){
   const start=(state.page-1)*state.pageSize, shown=filtered.slice(start,start+state.pageSize);
   $("cards").className="grid"+(state.view==="list"?" list-view":"");
   $("cards").innerHTML=shown.length?shown.map(cardHTML).join(""):`<div class="empty"><strong>No entries match.</strong>Try a different search, reset the filters, or add a new entry.</div>`;
+  initializeAds($("cards"));
   $("resultsText").innerHTML=`<strong>${filtered.length.toLocaleString()}</strong> matching entries · showing ${filtered.length?start+1:0}–${Math.min(start+state.pageSize,filtered.length)}`;
   $("statTotal").textContent=state.items.length.toLocaleString();$("statVisible").textContent=filtered.length.toLocaleString();$("statCategories").textContent=new Set(state.items.map(x=>x.category)).size;
   renderPagination(pages);
