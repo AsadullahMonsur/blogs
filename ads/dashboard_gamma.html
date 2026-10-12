@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080808">
+<title>MONO / INDEX — Catalogue Management (Fixed)</title>
+<style>
+:root{color-scheme:dark;--black:#070707;--panel:#101010;--panel2:#171717;--panel3:#202020;--white:#f4f4f4;--silver:#d7d7d7;--muted:#898989;--line:#ffffff1c;--line2:#ffffff38;--gradient:linear-gradient(135deg,#f8f8f8 0%,#bcbcbc 45%,#fff 100%);--shadow:0 22px 65px #0009;--radius:18px;--ease:cubic-bezier(.2,.75,.25,1)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--black);color:var(--white);font:14px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;background:radial-gradient(ellipse at 8% 0%,#ffffff0c,transparent 34%),radial-gradient(ellipse at 100% 50%,#ffffff08,transparent 28%),linear-gradient(160deg,#0a0a0a,#050505 70%)}
+button,input,select,textarea{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid #fff;outline-offset:3px}button:disabled{opacity:.4;cursor:not-allowed}
+.shell{width:min(1600px,100% - 48px);margin:auto}.topbar{height:76px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);gap:20px}.brand{display:flex;align-items:center;gap:11px;text-decoration:none;font-size:11px;letter-spacing:.2em;font-weight:900}.brand-mark{height:31px;width:31px;display:grid;place-items:center;border-radius:50%;background:var(--gradient);color:#080808;font-size:14px;letter-spacing:-.06em}.topnav{display:flex;align-items:center;gap:18px;color:#999;font-size:10px;letter-spacing:.14em;text-transform:uppercase}.status{display:inline-flex;align-items:center;gap:8px}.status:before{content:"";width:6px;height:6px;border-radius:50%;background:#eee;box-shadow:0 0 0 4px #ffffff13}
+.hero{padding:54px 0 34px;display:grid;grid-template-columns:1fr minmax(220px,370px);gap:38px;align-items:end;animation:rise .7s var(--ease) both}.kicker{color:#aaa;font-size:10px;letter-spacing:.22em;text-transform:uppercase;display:flex;align-items:center;gap:10px}.kicker:before{content:"";height:1px;width:30px;background:#aaa}h1{font-size:clamp(42px,7.5vw,100px);line-height:.87;letter-spacing:-.09em;margin:20px 0 18px;font-weight:850}h1 span{display:block;background:var(--gradient);background-clip:text;-webkit-background-clip:text;color:transparent}.hero-copy{color:#999;max-width:600px;font-size:13px;line-height:1.8;margin:0}.hero-visual{height:155px;border:1px solid var(--line);position:relative;overflow:hidden;background:linear-gradient(140deg,#222,#070707);isolation:isolate}.hero-visual:before{content:"";position:absolute;width:180px;height:180px;border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);background:radial-gradient(circle at 30% 25%,#fff,#aaa 18%,#454545 42%,#080808 70%);box-shadow:0 0 60px #fff1;animation:orb 8s ease-in-out infinite}.hero-visual:after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(120deg,transparent 0 18px,#ffffff0a 19px 20px)}.visual-caption{position:absolute;bottom:12px;left:14px;z-index:1;font-size:8px;letter-spacing:.18em;color:#ddd;text-transform:uppercase}
+@keyframes orb{0%,100%{transform:translate(-50%,-48%) scale(1)}50%{transform:translate(-50%,-53%) scale(1.08)}}@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}@keyframes cardIn{from{opacity:0;transform:translateY(14px) scale(.99)}to{opacity:1;transform:translateY(0) scale(1)}}@keyframes shine{0%{background-position:100% 50%}100%{background-position:-100% 50%}}@keyframes pulse{0%,100%{opacity:.65}50%{opacity:1}}@keyframes spin{to{transform:rotate(360deg)}}@keyframes shimmer{100%{background-position:-200% 0}}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:0 0 26px}.stat{padding:16px 18px;border:1px solid var(--line);background:linear-gradient(145deg,#151515,#0c0c0c);border-radius:14px;position:relative;overflow:hidden;transition:border-color .25s,transform .25s}.stat:hover{border-color:#777;transform:translateY(-2px)}.stat small{display:block;color:#888;font-size:9px;letter-spacing:.16em;text-transform:uppercase}.stat strong{display:block;font-size:26px;letter-spacing:-.07em;margin-top:7px}.stat em{font-style:normal;font-size:9px;color:#999;margin-left:6px;letter-spacing:0}
+.workspace{border:1px solid var(--line);border-radius:20px;background:linear-gradient(145deg,#101010ed,#090909f2);box-shadow:var(--shadow);overflow:hidden}.workspace-head{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 22px;border-bottom:1px solid var(--line)}.section-title{margin:0;font-size:18px;letter-spacing:-.04em}.section-subtitle{color:#888;font-size:10px;margin-top:4px}.head-actions{display:flex;gap:8px;flex-wrap:wrap}.btn{height:39px;padding:0 14px;border:1px solid var(--line2);border-radius:10px;background:#171717;color:#ddd;font-size:10px;letter-spacing:.04em;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:transform .2s,border-color .2s,background .2s}.btn:hover{background:#242424;border-color:#999;transform:translateY(-1px)}.btn svg{height:14px;width:14px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.btn-primary{background:var(--gradient);color:#080808;border-color:#eee;font-weight:850}.btn-primary:hover{background:linear-gradient(135deg,#fff,#ddd,#fff);border-color:#fff}.btn-danger:hover{border-color:#ddd;background:#292929}
+.toolbar{display:grid;grid-template-columns:minmax(200px,1fr) 165px 170px auto;gap:9px;padding:16px 22px;border-bottom:1px solid var(--line);align-items:center}.searchbox{position:relative}.searchbox svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);height:15px;width:15px;stroke:#999;fill:none;pointer-events:none}.input,.select{height:41px;width:100%;border:1px solid var(--line);border-radius:10px;background:#111;color:#eee;padding:0 12px;font-size:11px}.searchbox .input{padding-left:38px}.input::placeholder{color:#6f6f6f}.input:focus,.select:focus,.field textarea:focus{outline:none;border-color:#aaa}.filter-actions{display:flex;gap:8px;justify-content:flex-end}.view-toggle{display:flex;gap:4px;padding:4px;border:1px solid var(--line);border-radius:10px;background:#0c0c0c}.view-btn{height:31px;width:32px;display:grid;place-items:center;border:0;background:transparent;color:#777;border-radius:6px}.view-btn.active{background:#333;color:#fff}.view-btn svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.7}
+.collection-meta{display:flex;justify-content:space-between;gap:15px;align-items:center;padding:13px 22px;color:#888;font-size:10px;letter-spacing:.07em}.collection-meta strong{color:#eee}.meta-right{display:flex;align-items:center;gap:14px}.page-size{width:auto;height:30px;padding:0 8px;font-size:10px}.grid{padding:0 22px 22px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.grid.list-view{grid-template-columns:1fr}.card{min-width:0;border:1px solid var(--line);border-radius:15px;overflow:hidden;background:linear-gradient(145deg,#191919,#0b0b0b 80%);animation:cardIn .42s var(--ease) both;transition:transform .3s var(--ease),border-color .3s,box-shadow .3s;position:relative}.card:hover{transform:translateY(-4px);border-color:#777;box-shadow:0 18px 40px #0009,0 1px 0 #ffffff0d inset}.card-media{height:180px;position:relative;overflow:hidden;background:linear-gradient(120deg,#111,#292929,#111);background-size:200% 100%;animation:shimmer 8s linear infinite}.card-media img{width:100%;height:100%;display:block;object-fit:cover;filter:grayscale(1) contrast(1.08);opacity:.85;transition:transform .8s var(--ease),opacity .4s,filter .4s}.card:hover .card-media img{transform:scale(1.06);opacity:1;filter:grayscale(1) contrast(1.18)}.card-media:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#0004,transparent 42%,#000b);pointer-events:none}.index-chip,.category-chip{position:absolute;z-index:1;top:12px;border:1px solid #ffffff40;background:#080808aa;backdrop-filter:blur(8px);border-radius:6px;padding:6px 8px;font-size:8px;letter-spacing:.13em;text-transform:uppercase}.index-chip{left:12px}.category-chip{right:12px;color:#ddd}.image-fallback{position:absolute;inset:0;display:none;place-items:center;background:radial-gradient(circle at 50% 35%,#777,#292929 30%,#090909 75%);color:#eee;font-size:38px;font-weight:200;letter-spacing:-.1em}.card-body{padding:15px}.card-heading{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.card-title{font-size:17px;line-height:1.12;letter-spacing:-.045em;font-weight:760;margin:0;overflow-wrap:anywhere}.card-year{font-size:9px;color:#888;white-space:nowrap;padding-top:3px}.card-description{color:#999;font-size:10px;line-height:1.7;margin:10px 0 13px;min-height:35px}.card-footer{border-top:1px solid var(--line);padding-top:11px;display:flex;justify-content:space-between;align-items:center;gap:10px}.tag{font-size:8px;color:#ccc;letter-spacing:.12em;text-transform:uppercase}.card-buttons{display:flex;gap:5px}.icon-button{width:29px;height:29px;display:grid;place-items:center;background:#171717;border:1px solid var(--line);border-radius:8px;color:#bbb;transition:all .2s}.icon-button:hover{background:#303030;color:#fff;border-color:#888;transform:translateY(-1px)}.icon-button svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.ad-slot{height:60px;width:min(350px,100%);margin:13px auto 0;border:1px dashed #5e5e5e;border-radius:8px;position:relative;display:flex;align-items:center;justify-content:center;gap:9px;overflow:hidden;background:linear-gradient(105deg,#111,#292929,#111);background-size:200% 100%;animation:shimmer 9s linear infinite;color:#aaa}.ad-slot:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,#ffffff0c,transparent);transform:translateX(-100%);animation:adSweep 5s ease-in-out infinite}@keyframes adSweep{0%,45%{transform:translateX(-100%)}80%,100%{transform:translateX(100%)}}.ad-icon{height:24px;width:24px;border:1px solid #777;border-radius:50%;display:grid;place-items:center;font-size:9px;color:#eee}.ad-text{display:flex;flex-direction:column;gap:2px}.ad-text b{font-size:8px;color:#eee;letter-spacing:.13em;text-transform:uppercase}.ad-text span{font-size:7px;color:#888}.ad-label{position:absolute;right:6px;top:4px;font-size:6px;letter-spacing:.12em;color:#777}
+.list-view .card{display:grid;grid-template-columns:220px minmax(0,1fr)}.list-view .card-media{height:100%;min-height:200px}.list-view .card-body{display:flex;flex-direction:column;justify-content:center}.list-view .card-description{min-height:0}.list-view .ad-slot{margin-left:0;margin-right:auto}
+.empty{grid-column:1/-1;padding:70px 20px;border:1px dashed #555;border-radius:14px;text-align:center;color:#999}.empty strong{display:block;font-size:22px;color:#eee;letter-spacing:-.05em;margin-bottom:7px}.pagination{display:flex;justify-content:center;align-items:center;gap:6px;padding:0 22px 24px;flex-wrap:wrap}.page-btn{min-width:34px;height:34px;padding:0 9px;border:1px solid var(--line);border-radius:8px;background:#111;color:#aaa;font-size:10px}.page-btn.active{background:var(--gradient);color:#080808;border-color:#eee;font-weight:900}.page-btn:disabled{opacity:.3;cursor:not-allowed}.dots{color:#777;padding:0 4px}.foot{display:flex;justify-content:space-between;gap:15px;padding:22px 0 28px;color:#6f6f6f;font-size:8px;text-transform:uppercase;letter-spacing:.16em}
+.backdrop{position:fixed;inset:0;z-index:30;background:#000c;backdrop-filter:blur(12px);display:none;align-items:center;justify-content:center;padding:18px}.backdrop.open{display:flex;animation:fadeIn .18s ease both}@keyframes fadeIn{from{opacity:0}to{opacity:1}}.modal{width:min(590px,100%);max-height:92vh;overflow:auto;background:linear-gradient(145deg,#1c1c1c,#090909);border:1px solid #555;border-radius:20px;padding:24px;box-shadow:0 30px 100px #000d;animation:modalIn .25s var(--ease) both}@keyframes modalIn{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}.modal-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:21px}.modal h2{font-size:27px;letter-spacing:-.06em;line-height:1;margin:0}.modal-intro{color:#999;font-size:11px;line-height:1.7;margin:8px 0 0}.close{width:32px;height:32px;border:1px solid #444;background:#151515;color:#eee;border-radius:9px;font-size:20px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:1/-1}.field label{font-size:8px;letter-spacing:.15em;color:#aaa;text-transform:uppercase}.field input,.field select,.field textarea{width:100%;border:1px solid #444;background:#101010;color:#eee;border-radius:9px;padding:11px 12px;font-size:11px}.field textarea{resize:vertical;min-height:76px}.image-preview{display:none;margin-top:9px;border:1px solid #444;border-radius:9px;overflow:hidden;height:135px;background:#090909}.image-preview.visible{display:block}.image-preview img{width:100%;height:100%;object-fit:cover;filter:grayscale(1)}.form-error{display:none;color:#ddd;background:#292929;border:1px solid #666;border-radius:8px;padding:10px;margin-top:12px;font-size:10px}.form-error.visible{display:block}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:20px}
+.overview-layout{display:grid;grid-template-columns:1fr 1fr;gap:18px}.overview-image{width:100%;height:250px;object-fit:cover;filter:grayscale(1);border-radius:12px;border:1px solid #444;background:#111}.overview-details{display:flex;flex-direction:column;gap:12px}.overview-label{font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:#888}.overview-value{font-size:12px;color:#eee;overflow-wrap:anywhere}.overview-description{font-size:12px;color:#aaa;line-height:1.8}.toast{position:fixed;z-index:50;bottom:22px;left:50%;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--gradient);color:#080808;font-weight:800;font-size:11px;padding:12px 18px;border-radius:10px;box-shadow:0 10px 40px #0009;transition:opacity .25s,transform .25s}.toast.show{opacity:1;transform:translate(-50%,0)}.confirm-text{color:#aaa;font-size:12px;line-height:1.8}.spinner{display:inline-block;width:13px;height:13px;border:2px solid #666;border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
+@media(min-width:1400px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}.list-view{grid-template-columns:1fr!important}}
+@media(max-width:1050px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.toolbar{grid-template-columns:minmax(180px,1fr) 1fr 1fr}.filter-actions{grid-column:1/-1;justify-content:space-between}.hero{gap:20px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){.shell{width:calc(100% - 26px)}.topbar{height:63px}.topnav{font-size:8px;gap:9px}.hero{grid-template-columns:1fr;padding:38px 0 25px;gap:23px}h1{font-size:clamp(45px,15vw,76px)}.hero-visual{height:115px}.hero-visual:before{width:140px;height:140px}.stats{gap:8px}.stat{padding:13px}.stat strong{font-size:22px}.workspace-head{padding:16px;align-items:flex-start;flex-direction:column}.toolbar{grid-template-columns:1fr 1fr;padding:13px}.searchbox{grid-column:1/-1}.filter-actions{grid-column:1/-1}.collection-meta{padding:12px 13px;align-items:flex-start;flex-direction:column}.meta-right{width:100%;justify-content:space-between}.grid{grid-template-columns:1fr;padding:0 13px 16px;gap:12px}.card-media{height:210px}.list-view .card{grid-template-columns:1fr}.list-view .card-media{height:170px;min-height:0}.list-view .ad-slot{margin-left:auto;margin-right:auto}.pagination{padding:0 12px 20px}.foot{flex-direction:column}.form-grid,.overview-layout{grid-template-columns:1fr}.field.full{grid-column:auto}.overview-image{height:190px}.modal{padding:18px}.btn{padding:0 10px}}
+/* Live 320 × 50 provider ad in every catalogue card */
+.ad-slot{height:60px;width:min(350px,100%);padding:0;border:0;background:transparent;animation:none;overflow:hidden;display:flex;align-items:center;justify-content:center;margin:13px auto 0}
+.ad-slot:after{display:none}
+.ad-frame{display:block;flex:0 0 320px;width:320px;height:50px;max-width:100%;border:0;background:transparent}
+
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<header class="shell topbar">
+  <a class="brand" href="#" aria-label="Mono Index home"><span class="brand-mark">M/</span><span>MONO / INDEX</span></a>
+  <div class="topnav"><span class="status">Standalone workspace</span><span>Collection / 001</span></div>
+</header>
+<main class="shell">
+  <section class="hero">
+    <div><div class="kicker">Monochrome catalogue system</div><h1>FORM, <span>FILED.</span></h1><p class="hero-copy">A black-and-white collection management workspace. Browse five hundred ready-made entries, search the catalogue, inspect image previews, and manage every record without leaving the page.</p></div>
+    <div class="hero-visual" role="img" aria-label="Abstract grayscale sphere"><span class="visual-caption">Index study / light and matter</span></div>
+  </section>
+  <section class="stats" aria-label="Collection statistics">
+    <div class="stat"><small>Total entries</small><strong id="statTotal">500</strong></div>
+    <div class="stat"><small>Visible results</small><strong id="statVisible">500</strong></div>
+    <div class="stat"><small>Categories</small><strong id="statCategories">10</strong></div>
+    <div class="stat"><small>Data mode</small><strong id="statMode" style="font-size:19px">JSON <em>LOCAL DATA</em></strong></div>
+  </section>
+  <section class="workspace" aria-label="Catalogue management">
+    <div class="workspace-head">
+      <div><h2 class="section-title">The collection</h2><div class="section-subtitle">Search, sort, preview, create, update, and remove records.</div></div>
+      <div class="head-actions">
+        <button class="btn" id="exportBtn" type="button"><svg viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5"/><path d="M5 17v4h14v-4"/></svg>Save JSON file</button>
+        <button class="btn" id="importBtn" type="button"><svg viewBox="0 0 24 24"><path d="M12 16V4m-5 5 5-5 5 5"/><path d="M5 17v4h14v-4"/></svg>Load JSON file</button>
+        <input type="file" id="importFile" accept=".json,application/json" hidden>
+        <button class="btn btn-primary" id="addBtn" type="button"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Add entry</button>
+      </div>
+    </div>
+    <div class="toolbar">
+      <label class="searchbox"><svg viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg><input class="input" id="search" type="search" placeholder="Search title, category, year, or description…" autocomplete="off" aria-label="Search records"></label>
+      <select class="select" id="sort" aria-label="Sort records"><option value="number-asc">Index: ascending</option><option value="number-desc">Index: descending</option><option value="title-asc">Title: A → Z</option><option value="title-desc">Title: Z → A</option><option value="year-desc">Year: newest</option><option value="year-asc">Year: oldest</option></select>
+      <select class="select" id="category" aria-label="Filter by category"><option value="all">All categories</option></select>
+      <div class="filter-actions">
+        <div class="view-toggle" aria-label="View mode"><button class="view-btn active" id="gridView" aria-label="Grid view" title="Grid view" type="button"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></button><button class="view-btn" id="listView" aria-label="List view" title="List view" type="button"><svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3 6h.01M3 12h.01M3 18h.01"/></svg></button></div>
+        <button class="btn" id="resetBtn" type="button">Reset filters</button>
+        <button class="btn" id="restoreBtn" type="button" title="Restore the original 500 demo entries">Restore 500</button>
+      </div>
+    </div>
+    <div class="collection-meta"><span id="resultsText" aria-live="polite"><strong>500</strong> entries found</span><div class="meta-right"><span id="pageSizeLabel">500 cards / page</span><label for="pageSize" style="color:#888">Per page</label><select class="select page-size" id="pageSize" aria-label="Cards per page"><option value="100">100</option><option value="500" selected>500</option></select></div></div>
+    <div class="grid" id="cards" aria-live="polite"></div>
+    <nav class="pagination" id="pagination" aria-label="Collection pagination"></nav>
+  </section>
+  <footer class="foot"><span>MONO / INDEX · 2026</span><span>Black / white / every shade between</span><span>Embedded JSON backend · saved in this browser</span></footer>
+</main>
+
+<div class="backdrop" id="editBackdrop" role="dialog" aria-modal="true" aria-labelledby="editTitle">
+ <div class="modal">
+  <div class="modal-top"><div><h2 id="editTitle">Add an entry</h2><p class="modal-intro">Create or update a record. Paste an image URL to preview it before saving.</p></div><button class="close" data-close="editBackdrop" aria-label="Close">×</button></div>
+  <form id="editForm">
+   <input type="hidden" id="editId">
+   <div class="form-grid">
+    <div class="field full"><label for="titleInput">Title</label><input id="titleInput" required maxlength="100" placeholder="A considered form"></div>
+    <div class="field"><label for="categoryInput">Category</label><select id="categoryInput" required></select></div>
+    <div class="field"><label for="yearInput">Year</label><input id="yearInput" type="number" min="1000" max="2200" required value="2026"></div>
+    <div class="field full"><label for="descriptionInput">Description</label><textarea id="descriptionInput" maxlength="500" required placeholder="A brief description…"></textarea></div>
+    <div class="field full"><label for="imageInput">Image URL (HTTP/HTTPS)</label><input id="imageInput" type="url" placeholder="https://example.com/photo.jpg"><div class="image-preview" id="imagePreview"><img id="previewImage" alt="Image URL preview"></div></div>
+    <div class="field full"><label for="tagInput">Label / tag</label><input id="tagInput" maxlength="50" placeholder="FORM STUDY"></div>
+   </div>
+   <div class="form-error" id="formError"></div>
+   <div class="modal-actions"><button class="btn" type="button" data-close="editBackdrop">Cancel</button><button class="btn btn-primary" type="submit" id="saveBtn">Save entry</button></div>
+  </form>
+ </div>
+</div>
+<div class="backdrop" id="overviewBackdrop" role="dialog" aria-modal="true" aria-labelledby="overviewTitle">
+ <div class="modal">
+  <div class="modal-top"><div><h2 id="overviewTitle">Entry overview</h2><p class="modal-intro">Full record details and image preview.</p></div><button class="close" data-close="overviewBackdrop" aria-label="Close">×</button></div>
+  <div class="overview-layout"><img class="overview-image" id="overviewImage" alt="Entry image"><div class="overview-details" id="overviewDetails"></div></div>
+  <div class="modal-actions"><button class="btn" id="overviewClose" type="button">Close</button><button class="btn" id="overviewEdit" type="button">Edit entry</button><button class="btn btn-primary" id="overviewDelete" type="button">Remove entry</button></div>
+ </div>
+</div>
+<div class="backdrop" id="confirmBackdrop" role="alertdialog" aria-modal="true" aria-labelledby="confirmTitle">
+ <div class="modal" style="max-width:420px"><div class="modal-top"><div><h2 id="confirmTitle">Remove entry?</h2><p class="modal-intro">This removes the entry from the current collection.</p></div><button class="close" data-close="confirmBackdrop" aria-label="Close">×</button></div><p class="confirm-text" id="confirmMessage"></p><div class="modal-actions"><button class="btn" data-close="confirmBackdrop" type="button">Cancel</button><button class="btn btn-primary" id="confirmDelete" type="button">Remove entry</button></div></div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+"use strict";
+
+/*
+  EMBEDDED JSON BACKEND
+  This standalone file includes its own CRUD data layer. Its API methods
+  (list/get/create/update/remove/import/export) operate on JSON persisted in
+  this browser. No separate server or external API is required for single-browser use.
+  This is not a network HTTP server: data is local to this browser/profile.
+*/
+const STORAGE_KEY = "mono_index_catalogue_json_backend_v1";
+const CATEGORIES = ["Architecture","Objects","Photography","Typography","Interiors","Nature","Design","Culture","Technology","Places"];
+const TITLES = ["Quiet Geometry","Concrete Poetry","The White Room","After the Rain","Monolith Study","Soft Structure","Shadow Archive","North Window","Object No. 08","A Silent Form","Lines in Space","Still Matter","The Long Hall","Silver Morning","Negative Space","Paper Monument","Dark Horizon","Stone & Silence","A Study of Light","Minimal Ritual","Black Canvas","The Open Frame","Winter Outline","Echo Chamber","Solid Air","The Last Curve","Modern Relic","Lightwell","Nocturne Object","The Empty Gallery","Form Follows","Between Planes","A Certain Distance","The Grey House","Architectonic","One More Shadow","White Noise","The Shape of Calm","Measured Light","The Bare Minimum","Midnight Index","Soft Edges","Urban Stillness","Monochrome Field","The Floating Line","A Place Apart","Dark Matter","The Clean Cut","Slow Architecture","The Essential Object"];
+const DESCRIPTIONS = [
+"An exploration of proportion, texture, and the quiet confidence of a well-made form.",
+"A visual note on the space between what is seen and what is left unsaid.",
+"Material, light, and shadow come together in a restrained study of everyday beauty.",
+"A small experiment in contrast, where simplicity carries the weight of the whole.",
+"A considered composition shaped by rhythm, balance, and an eye for detail.",
+"A fragment of the modern world, reimagined through a strictly monochrome lens.",
+"A collection of subtle surfaces and strong silhouettes in conversation with light.",
+"An understated object that rewards a second look and a slower point of view."
+];
+const PHOTO_IDS = [
+"photo-1511818966892-d7d671e672a2","photo-1518005020951-eccb494ad742","photo-1487958449943-2429e8be8625",
+"photo-1519608487953-e999c86e7455","photo-1494438639946-1ebd1d20bf85","photo-1500530855697-b586d89ba3ee",
+"photo-1513519245088-0e12902e5a38","photo-1519710164239-da123dc03ef4","photo-1497366754035-f200968a6e72",
+"photo-1500534623283-312aede485b7","photo-1497366811353-6870744d04b2","photo-1484154218962-a197022b5858",
+"photo-1511818966892-d7d671e672a2","photo-1518005020951-eccb494ad742","photo-1487958449943-2429e8be8625",
+"photo-1494438639946-1ebd1d20bf85","photo-1513519245088-0e12902e5a38","photo-1519710164239-da123dc03ef4"
+];
+const imageUrl = (id) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=900&q=80`;
+const fallbackUrl = imageUrl(PHOTO_IDS[1]);
+const $ = id => document.getElementById(id);
+const state = {items:[], page:1, pageSize:500, view:"grid", overviewId:null, pendingDeleteId:null, toastTimer:null};
+const icons = {
+  search:'<svg viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg>',
+  eye:'<svg viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>',
+  edit:'<svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z"/></svg>',
+  delete:'<svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="m19 6-1 14H6L5 6"/><path d="M10 11v5M14 11v5"/></svg>'
+};
+const esc = value => String(value ?? "").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function validHttpUrl(value){try{const u=new URL(value);return ["http:","https:"].includes(u.protocol)?u.href:"";}catch{return "";}}
+function seedRecords(){
+  return Array.from({length:500},(_,i)=>({
+    id:i+1,number:i+1,
+    title:`${TITLES[i%TITLES.length]}${i>=TITLES.length?" "+String(Math.floor(i/TITLES.length)+1).padStart(2,"0"):""}`,
+    category:CATEGORIES[(i*7+Math.floor(i/4))%CATEGORIES.length],
+    year:2026-((i*13)%34),
+    description:DESCRIPTIONS[(i*3+Math.floor(i/7))%DESCRIPTIONS.length],
+    image:imageUrl(PHOTO_IDS[(i*5+Math.floor(i/3))%PHOTO_IDS.length]),
+    tag:["FORM STUDY","VISUAL CULTURE","OBJECT / SPACE","FIELD NOTE","STILL LIFE","MATERIAL STUDY"][(i*11)%6]
+  }));
+}
+function saveLocal(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state.items));return true;}catch(e){notify("Browser storage is unavailable. Export JSON to keep a copy.");return false;}}
+function loadLocal(){try{const raw=localStorage.getItem(STORAGE_KEY);if(!raw)return null;const data=JSON.parse(raw);return Array.isArray(data)?data:null;}catch{return null;}}
+const JsonBackend={
+  async list(){
+    const stored=loadLocal();
+    if(!Array.isArray(stored)||stored.length===0)return seedRecords();
+    return stored.map((x,i)=>({
+      id:x.id??i+1, number:Number(x.number)||i+1,
+      title:String(x.title||`Catalogue item ${i+1}`),
+      category:CATEGORIES.includes(x.category)?x.category:"Design",
+      year:Number(x.year)||2026,
+      description:String(x.description||"A monochrome catalogue study."),
+      image:validHttpUrl(x.image)||fallbackUrl,
+      tag:String(x.tag||x.category||"DESIGN")
+    }));
+  },
+  async get(id){return state.items.find(x=>String(x.id)===String(id))||null;},
+  async create(item){
+    const created={...item,id:item.id??(Date.now()+Math.floor(Math.random()*1000))};
+    state.items.unshift(created);
+    if(!saveLocal())throw new Error("Could not persist the new entry in browser storage.");
+    return created;
+  },
+  async update(id,item){
+    const idx=state.items.findIndex(x=>String(x.id)===String(id));
+    if(idx<0)throw new Error("Entry no longer exists.");
+    state.items[idx]={...state.items[idx],...item,id:state.items[idx].id};
+    if(!saveLocal())throw new Error("Could not persist the updated entry in browser storage.");
+    return state.items[idx];
+  },
+  async remove(id){
+    const before=state.items.length;
+    state.items=state.items.filter(x=>String(x.id)!==String(id));
+    if(state.items.length===before)throw new Error("Entry no longer exists.");
+    if(!saveLocal())throw new Error("Could not persist the deletion in browser storage.");
+    return true;
+  },
+  async replaceAll(items){state.items=items;if(!saveLocal())throw new Error("Could not persist JSON data in browser storage.");return state.items;},
+  async export(){return JSON.stringify(state.items,null,2);}
+};
+function notify(message){const toast=$("toast");toast.textContent=message;toast.classList.add("show");clearTimeout(state.toastTimer);state.toastTimer=setTimeout(()=>toast.classList.remove("show"),2700);}
+function getFiltered(){
+  const query=$("search").value.trim().toLowerCase(), category=$("category").value;
+  const [field,direction]=$("sort").value.split("-");
+  const list=state.items.filter(item=>(category==="all"||item.category===category)&&(!query||[item.title,item.category,item.description,item.tag,String(item.year),String(item.number)].some(v=>String(v??"").toLowerCase().includes(query))));
+  list.sort((a,b)=>{let result=field==="title"?String(a.title).localeCompare(String(b.title)):field==="year"?Number(a.year)-Number(b.year):Number(a.number)-Number(b.number);return direction==="desc"?-result:result;});
+  return list;
+}
+function adBlock(){
+  // Isolate each provider snippet in its own iframe so every card has an independent atOptions scope.
+  const adDocument = `<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"></head><body style="margin:0;width:320px;height:50px;overflow:hidden;background:transparent"><script>var atOptions={"key":"0e5334affec07316e853172b55388b22","format":"iframe","height":50,"width":320,"params":{}};<\/script><script src="https://www.highrevenueformat.com/0e5334affec07316e853172b55388b22/invoke.js"><\/script></body></html>`;
+  return `<div class="ad-slot" aria-label="Advertisement" title="Advertisement"><iframe class="ad-frame" title="Advertisement" width="320" height="50" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" sandbox="allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox" srcdoc="${esc(adDocument)}"></iframe></div>`;
+}
+function cardHTML(item,index){
+  const image=validHttpUrl(item.image)||fallbackUrl;
+  return `<article class="card" data-id="${esc(item.id)}" style="animation-delay:${Math.min(index%12,9)*28}ms">
+    <div class="card-media"><img src="${esc(image)}" alt="${esc(item.title)}" loading="lazy"><span class="image-fallback">${esc((item.title||"M").slice(0,1).toUpperCase())}</span><span class="index-chip">INDEX / ${String(item.number??item.id).padStart(3,"0")}</span><span class="category-chip">${esc(item.category)}</span></div>
+    <div class="card-body"><div class="card-heading"><h3 class="card-title">${esc(item.title)}</h3><span class="card-year">${esc(item.year)}</span></div>
+      <p class="card-description">${esc(item.description)}</p>
+      <div class="card-footer"><span class="tag">${esc(item.tag||item.category)}</span><div class="card-buttons">
+        <button class="icon-button overview-action" type="button" aria-label="Overview: ${esc(item.title)}" title="Overview">${icons.eye}</button>
+        <button class="icon-button edit-action" type="button" aria-label="Edit: ${esc(item.title)}" title="Edit">${icons.edit}</button>
+        <button class="icon-button delete-action" type="button" aria-label="Delete: ${esc(item.title)}" title="Delete">${icons.delete}</button>
+      </div></div>${adBlock()}</div></article>`;
+}
+function render(){
+  try {
+  const filtered=getFiltered(), pages=Math.max(1,Math.ceil(filtered.length/state.pageSize));
+  $("pageSize").value=String(state.pageSize);
+  $("pageSizeLabel").textContent=`${state.pageSize} cards / page`;
+  state.page=Math.min(Math.max(1,state.page),pages);
+  const start=(state.page-1)*state.pageSize, shown=filtered.slice(start,start+state.pageSize);
+  $("cards").className="grid"+(state.view==="list"?" list-view":"");
+  $("cards").innerHTML=shown.length?shown.map(cardHTML).join(""):`<div class="empty"><strong>No entries match.</strong>Try a different search, reset the filters, or add a new entry.</div>`;
+  $("resultsText").innerHTML=`<strong>${filtered.length.toLocaleString()}</strong> matching entries · showing ${filtered.length?start+1:0}–${Math.min(start+state.pageSize,filtered.length)}`;
+  $("statTotal").textContent=state.items.length.toLocaleString();$("statVisible").textContent=filtered.length.toLocaleString();$("statCategories").textContent=new Set(state.items.map(x=>x.category)).size;
+  renderPagination(pages);
+  $("gridView").classList.toggle("active",state.view==="grid");$("listView").classList.toggle("active",state.view==="list");
+  } catch (error) {
+    console.error("Catalogue render failed:", error);
+    $("cards").innerHTML=`<div class="empty"><strong>Could not display the catalogue.</strong>${esc(error.message||"Unexpected rendering error")}</div>`;
+  }
+}
+function renderPagination(pages){
+  const nav=$("pagination");nav.innerHTML="";
+  const add=(label,page,disabled=false,active=false)=>{
+    const b=document.createElement("button");b.type="button";b.className="page-btn"+(active?" active":"");b.textContent=label;b.disabled=disabled;
+    b.setAttribute("aria-label",label==="‹"?"Previous page":label==="›"?"Next page":`Page ${label}`);if(active)b.setAttribute("aria-current","page");
+    b.addEventListener("click",()=>{state.page=page;render();$("cards").scrollIntoView({behavior:"smooth",block:"start"});});nav.appendChild(b);
+  };
+  add("‹",Math.max(1,state.page-1),state.page===1);
+  const pagesToShow=[...new Set([1,pages,state.page-1,state.page,state.page+1].filter(p=>p>=1&&p<=pages))].sort((a,b)=>a-b);let prev=0;
+  pagesToShow.forEach(p=>{if(prev&&p>prev+1){const dots=document.createElement("span");dots.className="dots";dots.textContent="…";nav.appendChild(dots);}add(String(p),p,false,p===state.page);prev=p;});
+  add("›",Math.min(pages,state.page+1),state.page===pages);
+}
+function openModal(item=null){
+  $("editForm").reset();$("editId").value=item?item.id:"";$("editTitle").textContent=item?"Edit entry":"Add an entry";
+  $("titleInput").value=item?.title||"";$("categoryInput").value=item?.category||CATEGORIES[0];$("yearInput").value=item?.year||2026;
+  $("descriptionInput").value=item?.description||"";$("imageInput").value=item?.image||"";$("tagInput").value=item?.tag||"";
+  $("imagePreview").classList.remove("visible");$("formError").classList.remove("visible");$("saveBtn").textContent=item?"Save changes":"Save entry";
+  $("editBackdrop").classList.add("open");setTimeout(()=>$("titleInput").focus(),50);
+}
+function closeModal(id){$(id).classList.remove("open");}
+function showOverview(item){
+  state.overviewId=item.id;$("overviewTitle").textContent=item.title;$("overviewImage").src=validHttpUrl(item.image)||fallbackUrl;$("overviewImage").alt=item.title;
+  $("overviewDetails").innerHTML=`<div><div class="overview-label">Index number</div><div class="overview-value">${esc(item.number??item.id)}</div></div><div><div class="overview-label">Category</div><div class="overview-value">${esc(item.category)}</div></div><div><div class="overview-label">Year</div><div class="overview-value">${esc(item.year)}</div></div><div><div class="overview-label">Tag</div><div class="overview-value">${esc(item.tag||"—")}</div></div><div><div class="overview-label">Record ID</div><div class="overview-value">${esc(item.id)}</div></div><div><div class="overview-label">Image source</div><div class="overview-value">${esc(item.image||"No image URL")}</div></div><div><div class="overview-label">Description</div><div class="overview-description">${esc(item.description)}</div></div>`;
+  $("overviewBackdrop").classList.add("open");
+}
+function askDelete(item){state.pendingDeleteId=item.id;$("confirmMessage").textContent=`“${item.title}” (record ${item.id}) will be removed from this collection.`;$("confirmBackdrop").classList.add("open");}
+async function deletePending(){
+  const id=state.pendingDeleteId;if(id==null)return;
+  try{await JsonBackend.remove(id);state.pendingDeleteId=null;closeModal("confirmBackdrop");closeModal("overviewBackdrop");state.page=1;render();notify("Entry removed.");}
+  catch(error){notify(error.message||"Could not remove entry.");}
+}
+function populateCategories(){
+  for(const selectId of ["category","categoryInput"]){const select=$(selectId);CATEGORIES.forEach(cat=>select.add(new Option(cat,cat)));}
+}
+function updateImagePreview(){
+  const value=$("imageInput").value.trim(),url=validHttpUrl(value),wrap=$("imagePreview"),img=$("previewImage");
+  if(!value){wrap.classList.remove("visible");return;}
+  if(!url){wrap.classList.remove("visible");return;}
+  img.onload=()=>wrap.classList.add("visible");img.onerror=()=>{wrap.classList.remove("visible");$("formError").textContent="Image preview could not load. Check the URL."; $("formError").classList.add("visible");};img.src=url;
+}
+async function downloadJson(){
+  const json=JSON.stringify({format:"mono-index-catalogue",version:1,savedAt:new Date().toISOString(),items:state.items},null,2);
+  // Chromium-based browsers can save to a user-selected folder/file. The user may
+  // select the same directory as this HTML file; browsers do not expose that path automatically.
+  if("showSaveFilePicker" in window){
+    try{
+      const handle=await window.showSaveFilePicker({suggestedName:"mono_index_catalogue.json",types:[{description:"Catalogue JSON data",accept:{"application/json":[".json"]}}]});
+      const writable=await handle.createWritable();await writable.write(json);await writable.close();
+      notify("JSON data saved to the selected file.");return;
+    }catch(error){if(error?.name==="AbortError")return;}
+  }
+  const blob=new Blob([json],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");
+  a.href=url;a.download="mono_index_catalogue.json";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+  notify("JSON downloaded. Move it beside the HTML file if desired.");
+}
+async function importJson(file){
+  try{
+    const parsed=JSON.parse(await file.text());const list=Array.isArray(parsed)?parsed:parsed.items;
+    if(!Array.isArray(list))throw new Error("The JSON file must contain an array of records or an { items: [] } object.");
+    const normalized=list.map((x,i)=>{
+      if(!x||typeof x!=="object"||!String(x.title||"").trim())throw new Error(`Record ${i+1} is missing a title.`);
+      return {id:x.id??Date.now()+i,number:Number(x.number)||i+1,title:String(x.title).slice(0,100),category:CATEGORIES.includes(x.category)?x.category:"Design",year:Number(x.year)||2026,description:String(x.description||"").slice(0,500),image:validHttpUrl(x.image)||fallbackUrl,tag:String(x.tag||"").slice(0,50)};
+    });
+    await JsonBackend.replaceAll(normalized);state.page=1;render();notify(`Imported ${normalized.length} records.`);
+  }catch(error){notify(error.message||"Could not import JSON.");}
+}
+async function initialize(){
+  populateCategories();
+  $("statMode").innerHTML="JSON <em>LOCAL DATA</em>";
+  $("cards").innerHTML='<div class="empty"><span class="spinner"></span><strong style="margin-top:14px">Preparing the collection…</strong>Loading catalogue records.</div>';
+  try{
+    const priorData=loadLocal();
+    state.items=await JsonBackend.list();
+    if(!Array.isArray(priorData)||priorData.length===0)saveLocal();
+    notify(`${state.items.length} records loaded. The starter dataset is embedded in this HTML; use Save JSON file to keep a portable data file.`);
+    render();
+  }catch(error){$("cards").innerHTML=`<div class="empty"><strong>Could not load records.</strong>${esc(error.message)}</div>`;notify(error.message||"Could not load catalogue.");}
+}
+$("search").addEventListener("input",()=>{state.page=1;render();});
+$("sort").addEventListener("change",()=>{state.page=1;render();});
+$("category").addEventListener("change",()=>{state.page=1;render();});
+$("pageSize").addEventListener("change",e=>{state.pageSize=Number(e.target.value);state.page=1;render();});
+$("gridView").addEventListener("click",()=>{state.view="grid";render();});
+$("listView").addEventListener("click",()=>{state.view="list";render();});
+$("resetBtn").addEventListener("click",()=>{$("search").value="";$("sort").value="number-asc";$("category").value="all";state.page=1;render();notify("Filters reset.");});
+$("restoreBtn").addEventListener("click",()=>{
+  if(!confirm("Replace the current local collection with the original 500 demo entries? Export JSON first if you want to keep your edits."))return;
+  state.items=seedRecords();saveLocal();$("search").value="";$("sort").value="number-asc";$("category").value="all";state.page=1;render();notify("Restored the original 500 entries.");
+});
+$("addBtn").addEventListener("click",()=>openModal());
+$("cards").addEventListener("click",e=>{
+  const card=e.target.closest(".card");if(!card)return;const item=state.items.find(x=>String(x.id)===card.dataset.id);if(!item)return;
+  if(e.target.closest(".overview-action"))showOverview(item);
+  if(e.target.closest(".edit-action"))openModal(item);
+  if(e.target.closest(".delete-action"))askDelete(item);
+});
+$("editForm").addEventListener("submit",async e=>{
+  e.preventDefault();$("formError").classList.remove("visible");
+  const id=$("editId").value,old=id?state.items.find(x=>String(x.id)===String(id)):null;
+  const rawImage=$("imageInput").value.trim(),image=rawImage?validHttpUrl(rawImage):(old?.image||fallbackUrl);
+  if(rawImage&&!image){$("formError").textContent="Please enter a valid HTTP or HTTPS image URL."; $("formError").classList.add("visible");return;}
+  const title=$("titleInput").value.trim(),description=$("descriptionInput").value.trim(),year=Number($("yearInput").value);
+  if(!title||!description||!Number.isFinite(year)||year<1000||year>2200){$("formError").textContent="Please complete the required fields with a valid year."; $("formError").classList.add("visible");return;}
+  const record={number:old?.number??Math.max(0,...state.items.map(x=>Number(x.number)||0))+1,title,category:$("categoryInput").value,year,description,image,tag:$("tagInput").value.trim()||$("categoryInput").value.toUpperCase()};
+  const button=$("saveBtn");button.disabled=true;button.innerHTML='<span class="spinner"></span> Saving…';
+  try{
+    if(old){const updated=await JsonBackend.update(old.id,record);notify("Entry updated.");}
+    else {const created=await JsonBackend.create({...record,id:Date.now()+Math.floor(Math.random()*1000)});notify("New entry added.");}
+    state.page=1;closeModal("editBackdrop");render();
+  }catch(error){$("formError").textContent=error.message||"Could not save entry."; $("formError").classList.add("visible");}
+  finally{button.disabled=false;button.textContent=old?"Save changes":"Save entry";}
+});
+$("imageInput").addEventListener("input",updateImagePreview);
+$("overviewClose").addEventListener("click",()=>closeModal("overviewBackdrop"));
+$("overviewEdit").addEventListener("click",()=>{const item=state.items.find(x=>String(x.id)===String(state.overviewId));closeModal("overviewBackdrop");if(item)openModal(item);});
+$("overviewDelete").addEventListener("click",()=>{const item=state.items.find(x=>String(x.id)===String(state.overviewId));if(item)askDelete(item);});
+$("confirmDelete").addEventListener("click",deletePending);
+$("exportBtn").addEventListener("click",downloadJson);
+$("importBtn").addEventListener("click",()=>$("importFile").click());
+$("importFile").addEventListener("change",e=>{if(e.target.files[0])importJson(e.target.files[0]);e.target.value="";});
+document.querySelectorAll("[data-close]").forEach(btn=>btn.addEventListener("click",()=>closeModal(btn.dataset.close)));
+document.querySelectorAll(".backdrop").forEach(backdrop=>backdrop.addEventListener("click",e=>{if(e.target===backdrop)closeModal(backdrop.id);}));
+document.addEventListener("keydown",e=>{if(e.key==="Escape")document.querySelectorAll(".backdrop.open").forEach(x=>closeModal(x.id));});
+$("cards").addEventListener("error",e=>{if(e.target.tagName==="IMG"&&e.target.closest(".card-media")){e.target.style.display="none";const fallback=e.target.parentElement.querySelector(".image-fallback");if(fallback)fallback.style.display="grid";}},true);
+initialize();
+})();
+</script>
+</body>
+</html>
