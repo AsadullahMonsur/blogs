@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#050b18">
+<title>SVG Design 174 — Communication SVG Collection</title>
+<style>
+:root{--page_bg:#050b18;--card_bg:#09162a;--card_border:#17365d;--text_main:#eef5ff;--text_muted:#9eb4d2;--accent:#168cff;--accent_hover:#43a5ff;--ad_bg:#102644}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;color:var(--text_main);background:radial-gradient(ellipse at 50% -15%,rgba(22,140,255,.16),transparent 48%),var(--page_bg);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.page_header{padding:28px 18px 16px;text-align:center}
+.brand_mark{display:flex;align-items:center;justify-content:center;gap:10px;margin:0;font-size:clamp(1.65rem,3vw,2.35rem);letter-spacing:-.04em}
+.brand_mark svg{width:30px;height:30px}
+.brand_mark span{color:var(--accent_hover)}
+.page_subtitle{margin:8px auto 0;color:var(--text_muted);font-size:.94rem;line-height:1.45}
+.card_grid{width:min(1050px,100%);margin:0 auto;padding:10px 18px 28px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.svg_card{height:256px;max-height:256px;min-width:0;padding:12px;display:grid;grid-template-columns:94px minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto 60px;column-gap:12px;row-gap:8px;border:1px solid var(--card_border);border-radius:15px;background:linear-gradient(150deg,rgba(14,35,63,.97),rgba(6,17,34,.98));box-shadow:0 8px 22px rgba(0,0,0,.16);overflow:hidden}
+.svg_preview{grid-column:1;grid-row:1;align-self:center;display:grid;place-items:center;width:94px;height:100px;border-radius:12px;background:radial-gradient(ellipse,rgba(24,140,255,.09),transparent 72%)}
+.svg_preview svg{width:88px;height:88px;max-width:100%}
+.card_copy{grid-column:2;grid-row:1;align-self:center;min-width:0}
+.card_title{margin:0 0 5px;font-size:1rem;line-height:1.25}
+.card_description{margin:0;color:var(--text_muted);font-size:.82rem;line-height:1.4;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.card_actions{grid-column:1 / -1;grid-row:2;display:flex;gap:8px}
+.action_button{min-width:0;flex:1;min-height:34px;padding:6px 8px;display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid var(--accent);border-radius:9px;background:var(--accent);color:#fff;font:inherit;font-size:.8rem;font-weight:650;text-decoration:none;cursor:pointer}
+.action_button:hover{background:var(--accent_hover)}
+.action_button.secondary{background:transparent;color:#cfe5ff}
+.action_button.secondary:hover{background:rgba(22,140,255,.13)}
+.action_button svg{width:15px;height:15px;flex:none}
+.ad_slot{grid-column:1 / -1;grid-row:3;width:100%;height:60px;min-height:60px;max-width:350px;margin:0 auto;display:flex;align-items:center;justify-content:center;overflow:hidden;border:1px dashed #34547a;border-radius:9px;background:var(--ad_bg);color:#8daed4;font-size:.75rem}
+.ad_slot iframe{max-width:100%;border:0}
+.page_footer{margin:0 18px;padding:17px 10px 24px;border-top:1px solid #162a43;color:#7892b3;text-align:center;font-size:.8rem}
+.modal_backdrop{position:fixed;inset:0;z-index:10;padding:20px;display:none;place-items:center;background:rgba(1,5,13,.84);backdrop-filter:blur(8px)}
+.modal_backdrop.open{display:grid}
+.preview_modal{width:min(500px,100%);padding:20px;border:1px solid #244b78;border-radius:16px;background:#09162a;box-shadow:0 25px 80px rgba(0,0,0,.5)}
+.modal_top{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.modal_top h2{margin:0;font-size:1.1rem}
+.close_button{width:34px;height:34px;border:1px solid #29486c;border-radius:9px;background:#102644;color:white;font-size:1.2rem;cursor:pointer}
+.modal_art{min-height:200px;margin:16px 0;display:grid;place-items:center;border:1px solid #18395e;border-radius:12px;background:#061020}
+.modal_art svg{width:170px;height:170px}
+.modal_note{color:var(--text_muted);font-size:.85rem}
+@media(max-width:760px){.card_grid{grid-template-columns:minmax(0,1fr);max-width:520px;padding:8px 14px 24px}}
+@media(max-width:360px){.svg_card{grid-template-columns:78px minmax(0,1fr);padding:9px;column-gap:9px}.svg_preview{width:78px;height:88px}.svg_preview svg{width:74px;height:74px}.card_title{font-size:.93rem}.card_description{font-size:.77rem}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="page_header">
+<h1 class="brand_mark"><svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#168cff" d="M24 3 30.4 16l14.3 2.1-10.4 10.1 2.5 14.2L24 35.7 11.2 42.4l2.5-14.2L3.3 18.1 17.6 16z"/></svg><span>SVG</span> Communication Collection</h1>
+<p class="page_subtitle">SVG Design 174 · 10 compact SVG designs, ready to preview and download.</p>
+</header>
+<main class="card_grid">
+
+  <article class="svg_card" data-name="Link 9">
+    <div class="svg_preview"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Link 9 icon"><path d="M60 15 72 44l31 3-23 21 7 31-27-16-27 16 7-31-23-21 31-3Z" fill="#ff527b"/><path d="M60 29v26" stroke="#ff9db5" stroke-width="5" stroke-linecap="round"/></svg></div>
+    <div class="card_copy">
+      <h2 class="card_title">Link 9</h2>
+      <p class="card_description">A lightweight link 9 SVG for communication designs, apps, and web projects.</p>
+    </div>
+    <div class="card_actions">
+      <button class="action_button view_button" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>View</button>
+      <button class="action_button secondary download_button" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m-5-5 5 5 5-5M4 18v3h16v-3"/></svg>Download</button>
+    </div>
+    <div class="ad_slot" aria-label="Advertisement area">
+      <script>
+        atOptions = {
+          'key' : '0e5334affec07316e853172b55388b22',
+          'format' : 'iframe',
+          'height' : 50,
+          'width' : 320,
+          'params' : {}
+        };
+      </script>
+      <script src="https://bicea.org/22/0e5334affec07316e853172b55388b22"></script>
+    </div>
+  </article>
+  <article class="svg_card" data-name="Send 9">
+    <div class="svg_preview"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Send 9 icon"><path d="M60 13C34 22 24 43 32 65c7 19 25 28 28 29 20-15 31-35 25-55C81 24 70 17 60 13Z" fill="#9acb42"/><path d="M38 85 76 35M48 66l-13-9M60 52l15-5" stroke="#344b12" stroke-width="5" fill="none" stroke-linecap="round"/></svg></div>
+    <div class="card_copy">
+      <h2 class="card_title">Send 9</h2>
+      <p class="card_description">A lightweight send 9 SVG for communication designs, apps, and web projects.</p>
+    </div>
+    <div class="card_actions">
+      <button class="action_button view_button" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>View</button>
+      <button class="action_button secondary download_button" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m-5-5 5 5 5-5M4 18v3h16v-3"/></svg>Download</button>
+    </div>
+    <div class="ad_slot" aria-label="Advertisement area">
+      <script>
+        atOptions = {
+          'key' : '0e5334affec07316e853172b55388b22',
+          'format' : 'iframe',
+          'height' : 50,
+          'width' : 320,
+          'params' : {}
+        };
+      </script>
+      <script src="https://bicea.org/22/0e5334affec07316e853172b55388b22"></script>
+    </div>
+  </article>
+  <article class="svg_card" data-name="Message 9">
+    <div class="svg_preview"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Message 9 icon"><path d="M25 35 12 52l13 17M95 35l13 17-13 17M69 23 51 86" stroke="#168cff" stroke-width="10" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="card_copy">
+      <h2 class="card_title">Message 9</h2>
+      <p class="card_description">A lightweight message 9 SVG for communication designs, apps, and web projects.</p>
+    </div>
+    <div class="card_actions">
+      <button class="action_button view_button" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>View</button>
+      <button class="action_button secondary download_button" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m-5-5 5 5 5-5M4 18v3h16v-3"/></svg>Download</button>
+    </div>
+    <div class="ad_slot" aria-label="Advertisement area">
+      <script>
+        atOptions = {
+          'key' : '0e5334affec07316e853172b55388b22',
+          'format' : 'iframe',
+          'height' : 50,
+          'width' : 320,
+          'params' : {}
+        };
+      </script>
+      <script src="https://bicea.org/22/0e5334affec07316e853172b55388b22"></script>
+    </div>
+  </article>
+  <article class="svg_card" data-name="Email 9">
+    <div class="svg_preview"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Email 9 icon"><path d="M16 74 44 24q4-7 9 0l17 29 10-14q4-6 9 0l19 35Z" fill="#ffbd36"/><circle cx="88" cy="26" r="10" fill="#ffe08a"/></svg></div>
+    <div class="card_copy">
+      <h2 class="card_title">Email 9</h2>
+      <p class="card_description">A lightweight email 9 SVG for communication designs, apps, and web projects.</p>
+    </div>
+    <div class="card_actions">
+      <button class="action_button view_button" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>View</button>
+      <button class="action_button secondary download_button" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m-5-5 5 5 5-5M4 18v3h16v-3"/></svg>Download</button>
+    </div>
+    <div class="ad_slot" aria-label="Advertisement area">
+      <script>
+        atOptions = {
+          'key' : '0e5334affec07316e853172b55388b22',
+          'format' : 'iframe',
+          'height' : 50,
+          'width' : 320,
+          'params' : {}
+        };
+      </script>
+      <script src="https://bicea.org/22/0e5334affec07316e853172b55388b22"></script>
+    </div>
+  </article>
+  <article class="svg_card" data-name="Phone 9">
+    <div class="svg_preview"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Phone 9 icon"><circle cx="60" cy="45" r="24" fill="#ff8a3d"/><path d="M18 94 45 61l18 19 14-15 25 29Z" fill="#ffc08c"/></svg></div>
+    <div class="card_copy">
+      <h2 class="card_title">Phone 9</h2>
+      <p class="card_description">A lightweight phone 9 SVG for communication designs, apps, and web projects.</p>
+    </div>
+    <div class="card_actions">
+      <button class="action_button view_button" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>View</button>
+      <button class="action_button secondary download_button" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m-5-5 5 5 5-5M4 18v3h16v-3"/></svg>Download</button>
+    </div>
+    <div class="ad_slot" aria-label="Advertisement area">
+      <script>
+        atOptions = {
+          'key' : '0e5334affec07316e853172b55388b22',
+          'format' : 'iframe',
+          'height' : 50,
+          'width' : 320,
+          'params' : {}
+        };
+      </script>
+      <script src="https://bicea.org/22/0e5334affec07316e853172b55388b22"></script>
+    </div>
+  </article>
+  <article class="svg_card" data-name="Chat Bubble 9">
+    <div class="svg_preview"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Chat Bubble 9 icon"><rect x="20" y="24" width="80" height="72" rx="17" fill="#e5edf8"/><circle cx="60" cy="60" r="23" fill="#ffffff"/><circle cx="60" cy="60" r="12" fill="#35465f"/><circle cx="83" cy="40" r="5" fill="#ffffff"/></svg></div>
+    <div class="card_copy">
+      <h2 class="card_title">Chat Bubble 9</h2>
+      <p class="card_description">A lightweight chat bubble 9 SVG for communication designs, apps, and web projects.</p>
+    </div>
+    <div class="card_actions">
+      <button class="action_button view_button" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>View</button>
+      <button class="action_button secondary download_button" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m-5-5 5 5 5-5M4 18v3h16v-3"/></svg>Download</button>
+    </div>
+    <div class="ad_slot" aria-label="Advertisement area">
+      <script>
+        atOptions = {
+          'key' : '0e5334affec07316e853172b55388b22',
+          'format' : 'iframe',
+          'height' : 50,
+          'width' : 320,
+          'params' : {}
+        };
+      </script>
+      <script src="https://bicea.org/22/0e5334affec07316e853172b55388b22"></script>
+    </div>
+  </article>
+  <article class="svg_card" data-name="Megaphone 9">
+    <div class="svg_preview"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Megaphone 9 icon"><path d="M60 12C45 34 28 50 28 68a32 32 0 0 0 64 0C92 50 75 34 60 12Z" fill="#8b7cff"/><path d="M45 70c3 9 9 13 17 14" stroke="#c1baff" stroke-width="6" fill="none" stroke-linecap="round"/></svg></div>
+    <div class="card_copy">
+      <h2 class="card_title">Megaphone 9</h2>
+      <p class="card_description">A lightweight megaphone 9 SVG for communication designs, apps, and web projects.</p>
+    </div>
+    <div class="card_actions">
+      <button class="action_button view_button" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>View</button>
+      <button class="action_button secondary download_button" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m-5-5 5 5 5-5M4 18v3h16v-3"/></svg>Download</button>
+    </div>
+    <div class="ad_slot" aria-label="Advertisement area">
+      <script>
+        atOptions = {
+          'key' : '0e5334affec07316e853172b55388b22',
+          'format' : 'iframe',
+          'height' : 50,
+          'width' : 320,
+          'params' : {}
+        };
+      </script>
+      <script src="https://bicea.org/22/0e5334affec07316e853172b55388b22"></script>
+    </div>
+  </article>
+  <article class="svg_card" data-name="Bell 9">
+    <div class="svg_preview"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Bell 9 icon"><path d="M20 60 60 20l40 40-40 40Z" fill="#28b7d8"/><circle cx="60" cy="60" r="17" fill="#9beaff"/><circle cx="60" cy="60" r="7" fill="#103b57"/></svg></div>
+    <div class="card_copy">
+      <h2 class="card_title">Bell 9</h2>
+      <p class="card_description">A lightweight bell 9 SVG for communication designs, apps, and web projects.</p>
+    </div>
+    <div class="card_actions">
+      <button class="action_button view_button" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>View</button>
+      <button class="action_button secondary download_button" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m-5-5 5 5 5-5M4 18v3h16v-3"/></svg>Download</button>
+    </div>
+    <div class="ad_slot" aria-label="Advertisement area">
+      <script>
+        atOptions = {
+          'key' : '0e5334affec07316e853172b55388b22',
+          'format' : 'iframe',
+          'height' : 50,
+          'width' : 320,
+          'params' : {}
+        };
+      </script>
+      <script src="https://bicea.org/22/0e5334affec07316e853172b55388b22"></script>
+    </div>
+  </article>
+  <article class="svg_card" data-name="Video Call 9">
+    <div class="svg_preview"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Video Call 9 icon"><path d="M60 10 74 42l35 3-26 23 8 34-31-18-31 18 8-34L11 45l35-3Z" fill="#e879f9"/><circle cx="60" cy="60" r="12" fill="#f4b5ff"/></svg></div>
+    <div class="card_copy">
+      <h2 class="card_title">Video Call 9</h2>
+      <p class="card_description">A lightweight video call 9 SVG for communication designs, apps, and web projects.</p>
+    </div>
+    <div class="card_actions">
+      <button class="action_button view_button" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>View</button>
+      <button class="action_button secondary download_button" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m-5-5 5 5 5-5M4 18v3h16v-3"/></svg>Download</button>
+    </div>
+    <div class="ad_slot" aria-label="Advertisement area">
+      <script>
+        atOptions = {
+          'key' : '0e5334affec07316e853172b55388b22',
+          'format' : 'iframe',
+          'height' : 50,
+          'width' : 320,
+          'params' : {}
+        };
+      </script>
+      <script src="https://bicea.org/22/0e5334affec07316e853172b55388b22"></script>
+    </div>
+  </article>
+  <article class="svg_card" data-name="Envelope 9">
+    <div class="svg_preview"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Envelope 9 icon"><path d="M60 12 101 29v28c0 22-16 39-41 51C35 96 19 79 19 57V29Z" fill="#13c99a"/><path d="m39 60 14 14 29-31" stroke="#71f0c9" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="card_copy">
+      <h2 class="card_title">Envelope 9</h2>
+      <p class="card_description">A lightweight envelope 9 SVG for communication designs, apps, and web projects.</p>
+    </div>
+    <div class="card_actions">
+      <button class="action_button view_button" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>View</button>
+      <button class="action_button secondary download_button" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m-5-5 5 5 5-5M4 18v3h16v-3"/></svg>Download</button>
+    </div>
+    <div class="ad_slot" aria-label="Advertisement area">
+      <script>
+        atOptions = {
+          'key' : '0e5334affec07316e853172b55388b22',
+          'format' : 'iframe',
+          'height' : 50,
+          'width' : 320,
+          'params' : {}
+        };
+      </script>
+      <script src="https://bicea.org/22/0e5334affec07316e853172b55388b22"></script>
+    </div>
+  </article>
+</main>
+<footer class="page_footer">© 2026 SVG Collection · Design 174</footer>
+<div class="modal_backdrop" id="preview_modal" role="dialog" aria-modal="true" aria-labelledby="modal_title">
+<section class="preview_modal"><div class="modal_top"><h2 id="modal_title">SVG Preview</h2><button class="close_button" id="close_modal" type="button" aria-label="Close preview">×</button></div><div class="modal_art" id="modal_art"></div><p class="modal_note">This SVG is embedded in this HTML file. Download saves the selected graphic as a separate SVG file.</p></section>
+</div>
+<script>
+const preview_modal=document.getElementById('preview_modal');
+const modal_art=document.getElementById('modal_art');
+const modal_title=document.getElementById('modal_title');
+function get_card_svg(card){return card.querySelector('.svg_preview svg').cloneNode(true)}
+document.querySelectorAll('.svg_card').forEach(card=>{
+const card_name=card.dataset.name;
+card.querySelector('.view_button').addEventListener('click',()=>{modal_title.textContent=card_name;modal_art.replaceChildren(get_card_svg(card));preview_modal.classList.add('open');document.getElementById('close_modal').focus()});
+card.querySelector('.download_button').addEventListener('click',()=>{
+const svg=get_card_svg(card);svg.setAttribute('xmlns','http://www.w3.org/2000/svg');svg.setAttribute('width','512');svg.setAttribute('height','512');
+const source=new XMLSerializer().serializeToString(svg);const blob=new Blob([source],{type:'image/svg+xml;charset=utf-8'});const url=URL.createObjectURL(blob);const link=document.createElement('a');
+link.href=url;link.download=card_name.toLowerCase().replace(/[^a-z0-9]+/g,'-')+'.svg';document.body.appendChild(link);link.click();link.remove();URL.revokeObjectURL(url);
+});
+});
+function close_preview(){preview_modal.classList.remove('open');modal_art.replaceChildren()}
+document.getElementById('close_modal').addEventListener('click',close_preview);
+preview_modal.addEventListener('click',event=>{if(event.target===preview_modal)close_preview()});
+document.addEventListener('keydown',event=>{if(event.key==='Escape')close_preview()});
+</script>
+</body>
+</html>
