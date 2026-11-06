@@ -111,11 +111,11 @@ body.run{cursor:none}
 
 <script>
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],stg=$('#stage');
-let run=0,AC,master,NB,padN=[];
+let run=0,AC,master,NB;
 function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080);stg.style.transform=`translate(${(innerWidth-1920*s)/2}px,${(innerHeight-1080*s)/2}px) scale(${s})`}
 addEventListener('resize',fit);fit();
 
-/* ---------- synthesized sound effects (Web Audio, no files) ---------- */
+/* ---------- synthesized sound effects (Web Audio, no files; no background loop) ---------- */
 function initAudio(){AC=new(window.AudioContext||window.webkitAudioContext)();master=AC.createGain();master.gain.value=.6;const c=AC.createDynamicsCompressor();master.connect(c);c.connect(AC.destination)}
 function tone(f,t=.15,type='sine',v=.3,f2,at=0){if(!AC)return;const n=AC.currentTime+at,o=AC.createOscillator(),g=AC.createGain();o.type=type;o.frequency.setValueAtTime(f,n);if(f2)o.frequency.exponentialRampToValueAtTime(f2,n+t);g.gain.setValueAtTime(.0001,n);g.gain.exponentialRampToValueAtTime(v,n+.01);g.gain.exponentialRampToValueAtTime(.0001,n+t);o.connect(g);g.connect(master);o.start(n);o.stop(n+t+.05)}
 function noise(t,f1,f2,v=.3,type='bandpass',q=1){if(!AC)return;if(!NB){NB=AC.createBuffer(1,AC.sampleRate*2,AC.sampleRate);const d=NB.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1}const n=AC.currentTime,s=AC.createBufferSource(),fl=AC.createBiquadFilter(),g=AC.createGain();s.buffer=NB;fl.type=type;fl.Q.value=q;fl.frequency.setValueAtTime(f1,n);fl.frequency.exponentialRampToValueAtTime(f2,n+t);g.gain.setValueAtTime(.0001,n);g.gain.exponentialRampToValueAtTime(v,n+t*.3);g.gain.exponentialRampToValueAtTime(.0001,n+t);s.connect(fl);fl.connect(g);g.connect(master);s.start(n);s.stop(n+t+.05)}
@@ -130,8 +130,6 @@ const sfx={
  alert:()=>[0,.3,.6].forEach(a=>{tone(660,.2,'sawtooth',.16,null,a);tone(500,.2,'sawtooth',.16,null,a+.15)}),
  success:()=>{[523,659,784,1047].forEach((f,i)=>tone(f,.6,'sine',.25,null,i*.12));tone(1568,1.2,'sine',.15,null,.5)}
 };
-function pad(){[110,165,220].forEach((f,i)=>{const o=AC.createOscillator(),g=AC.createGain();o.frequency.value=f*(1+i*.002);g.gain.value=.025;o.connect(g);g.connect(master);o.start();padN.push([o,g])})}
-function padStop(){if(!AC)return;padN.forEach(([o,g])=>{g.gain.linearRampToValueAtTime(0,AC.currentTime+2);o.stop(AC.currentTime+2.1)});padN=[]}
 
 /* ---------- helpers ---------- */
 const P1=[[6.4,55],[19.8,55],[33.6,55],[48.4,55],[62,55],[74.3,55],[90.5,55]];
@@ -159,9 +157,9 @@ function reset(){
 /* ---------- the timeline ---------- */
 async function play(){
  const my=++run,S=ms=>new Promise((ok,no)=>setTimeout(()=>run===my?ok():no(),ms));
- padStop();reset();
+ reset();
  try{
-  await S(1400);pad();
+  await S(1400);
   /* 1. Normal internet use */
   sc('s1');sfx.whoosh();await S(400);inn('#s1 .chip');sfx.ui();await S(500);
   inn('#c1');sfx.pop();inn('#st1');cap('Normal internet use: your request travels from your devices to the server you want to reach.');await S(1400);
@@ -215,7 +213,6 @@ async function play(){
   sfx.zoom();cam('#cam6',420,130,798,679,1.9);cap('The ISP sees only that you reach your Pi and a foreign server. The cloud server holds no keys, so it can’t steal credentials or send fake phishing pages.');await S(6800);
   cam('#cam6',0,0,0,0,1,0,0);cap('Own your server. Own your keys.');await S(2800);
   $('#cap').classList.remove('in');inn('#end');$('#end').classList.add('on');$('#pg').style.width='100%';sfx.success();await S(4500);
-  padStop();
  }catch(e){}
 }
 function begin(){if(!AC)initAudio();if(AC.state!=='running')AC.resume();$('#start').classList.add('gone');document.body.classList.add('run');play()}
