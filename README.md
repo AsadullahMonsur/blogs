@@ -43,3 +43,6 @@ World Data
 
 VPN
 1.https://asadullahmonsur.github.io/blogs/vpn/vpn_explainer_animation.html
+
+Softwares
+1. BLSDP. Link: https://asadullahmonsur.github.io/blogs/softwares/blsdp_landing.html
